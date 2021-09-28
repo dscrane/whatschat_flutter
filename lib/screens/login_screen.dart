@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whats_chat/constants.dart';
 import 'package:whats_chat/screens/chat_list_screen.dart';
+import 'package:whats_chat/widgets/hero_logo.dart';
 import 'package:whats_chat/widgets/rounded_button.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -21,7 +22,8 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Row(),
+              HeroLogo(),
+              // TODO: Add authentication form
               RoundedButton(
                 title: 'Log In',
                 color: kPrimary,

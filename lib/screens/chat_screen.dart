@@ -5,6 +5,7 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Create chat screen display
     return Container();
   }
 }

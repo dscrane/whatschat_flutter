@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // Stylistic constants
-const kBackground = Color(0xFF42384f);
+const kBackground = Color(0xff5d5662);
 const kPrimary = Color(0xFF8741c1);
 const kPrimaryLight = Color(0xFFba70f4);
 const kPrimaryDark = Color(0xFF550d90);
+const kDeepPurple = Color(0xff2e094c);
 const kSecondary = Color(0xFF44dae8);
 const kSecondaryLight = Color(0xFF83ffff);
 const kSecondaryDark = Color(0xFF00a8b6);
@@ -19,7 +20,6 @@ const kChatListTitleStyle = TextStyle(
 );
 
 const kChatListMessageStyle = TextStyle(
-  // fontWeight: FontWeight.w300,
   fontSize: 10.0,
   color: kTextLightFaded,
 );
