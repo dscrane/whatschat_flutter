@@ -9,7 +9,9 @@ class ChatListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     print(chatData);
     return Row(
-      children: [
+      // Todo: add gesture detection to each tile
+      // Todo: gesture detection should navigate to that chat's screen
+      children: <Widget>[
         Expanded(flex: 1, child: kUserAvatar),
         Expanded(
           flex: 5,
@@ -22,14 +24,14 @@ class ChatListTile extends StatelessWidget {
               ),
             ),
             child: Row(
-              children: [
+              children: <Widget>[
                 SizedBox(width: 10.0),
                 Expanded(
                   flex: 10,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       Text(
                         chatData["name"],
                         style: kChatListTitleStyle,
@@ -44,7 +46,15 @@ class ChatListTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                Expanded(flex: 1, child: kMenuIcon),
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    icon: kMenuIcon,
+                    onPressed: () {
+                      // Todo: hook up the context menu for the chat_list_screen
+                    },
+                  ),
+                ),
               ],
             ),
           ),

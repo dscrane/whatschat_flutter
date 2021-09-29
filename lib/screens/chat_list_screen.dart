@@ -10,19 +10,31 @@ class ChatListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryDark,
-        title: Text('This is some title text'),
+        title: Text('Chats'),
+        actions: <Widget>[
+          IconButton(
+            icon: kSearchIcon,
+            onPressed: () {
+              // TODO: add slide in animation for the textField
+            },
+          )
+        ],
       ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+          children: <Widget>[
             Expanded(
               child: Container(
                 padding: EdgeInsets.only(
-                    top: 15.0, left: 0.0, right: 0.0, bottom: 0.0),
+                  top: 15.0,
+                  left: 0.0,
+                  right: 0.0,
+                  bottom: 0.0,
+                ),
                 color: kBackground,
                 child: ChatListView(
-                  chats: DummyData,
+                  chats: DummyChats,
                 ),
               ),
             ),
@@ -30,7 +42,9 @@ class ChatListScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          // TODO: add modal pop up to create a new room
+        },
         child: kPlusIcon,
       ),
     );
