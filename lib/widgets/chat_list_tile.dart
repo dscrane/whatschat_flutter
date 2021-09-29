@@ -29,6 +29,5 @@ class ChatListTile extends StatelessWidget {
       ),
       trailing: kMenuIcon,
     );
-    ;
   }
 }

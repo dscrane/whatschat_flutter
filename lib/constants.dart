@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // Stylistic constants
-const kBackground = Color(0xff5d5662);
+const kBackground = Color(0xff847688);
 const kPrimary = Color(0xFF8741c1);
 const kPrimaryLight = Color(0xFFba70f4);
 const kPrimaryDark = Color(0xFF550d90);

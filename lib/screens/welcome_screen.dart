@@ -40,9 +40,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       TypewriterAnimatedText(
                         'What\'s Chat',
                         textStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 45.0,
-                            fontWeight: FontWeight.w900),
+                          shadows: [
+                            Shadow(
+                                blurRadius: 2.0,
+                                color: kPrimaryDark,
+                                offset: Offset.fromDirection(1.0))
+                          ],
+                          color: kPrimaryLight,
+                          fontSize: 45.0,
+                          fontWeight: FontWeight.w900,
+                        ),
+                        cursor: '|',
                         speed: const Duration(milliseconds: 250),
                       ),
                     ],
