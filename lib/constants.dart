@@ -1,41 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-// Stylistic constants
-const kBackground = Color(0xff847688);
+// Box constants
+const kBoxSm = SizedBox(height: 16.0);
+const kBoxMd = SizedBox(height: 24.0);
+const kBoxLg = SizedBox(height: 32.0);
+const kBoxXl = SizedBox(height: 48.0);
+
+// Color scheme constants
+const kBackground = Color(0xff48424e);
 const kPrimary = Color(0xFF8741c1);
 const kPrimaryLight = Color(0xFFba70f4);
-const kPrimaryDark = Color(0xFF550d90);
+const kPrimaryDark = Color(0xff4a107c);
 const kDeepPurple = Color(0xff2e094c);
 const kSecondary = Color(0xFF44dae8);
 const kSecondaryLight = Color(0xFF83ffff);
 const kSecondaryDark = Color(0xFF00a8b6);
-const kTextLightFaded = Color(0xFFB3ADAD);
+const kTextLightFaded = Color(0xFF9793A4);
 const kTextLight = Color(0xFFFFFFFF);
 const kTextDark = Color(0xFF000000);
 
+// Stylistic constants
 const kChatListTitleStyle = TextStyle(
   fontWeight: FontWeight.w700,
   fontSize: 18.0,
 );
 
 const kChatListMessageStyle = TextStyle(
-  fontSize: 10.0,
+  fontSize: 14.0,
   color: kTextLightFaded,
 );
-// Functional constants
 
-// Data constants
+const kRegistrationTitleStyle = TextStyle(
+  fontSize: 25.0,
+  fontWeight: FontWeight.w700,
+  color: kTextLight,
+);
+
+const kTextFieldDecoration = InputDecoration(
+    hintStyle: TextStyle(
+      color: kTextLightFaded,
+    ),
+    contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(32.0)),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: kPrimaryDark, width: 1.5),
+      borderRadius: BorderRadius.all(Radius.circular(32.0)),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: kDeepPurple, width: 2.0),
+      borderRadius: BorderRadius.all(Radius.circular(32.0)),
+    ));
+// Functional constants
 
 // Icon constants
 const CircleAvatar kUserAvatar = CircleAvatar(
   child: Icon(
     FontAwesomeIcons.user,
-    size: 25.0,
+    size: 20.0,
     color: kSecondaryDark,
   ),
   backgroundColor: kTextLight,
-  radius: 25.0,
+  radius: 20.0,
 );
 
 const CircleAvatar kUsersAvatar = CircleAvatar(
@@ -50,7 +78,7 @@ const CircleAvatar kUsersAvatar = CircleAvatar(
 
 const Icon kMenuIcon = Icon(
   FontAwesomeIcons.ellipsisV,
-  color: kSecondaryDark,
+  color: kDeepPurple,
   size: 18.0,
 );
 
@@ -63,6 +91,9 @@ const Icon kMinusIcon = Icon(
   FontAwesomeIcons.minus,
   color: kTextLight,
 );
+
+// Data constants
+const kChatListMenuValues = [];
 
 const DummyData = [
   {

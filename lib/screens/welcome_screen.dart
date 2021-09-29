@@ -35,27 +35,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 textBaseline: TextBaseline.alphabetic,
                 children: <Widget>[
                   HeroLogo(),
-                  AnimatedTextKit(
-                    animatedTexts: [
-                      TypewriterAnimatedText(
-                        'What\'s Chat',
-                        textStyle: TextStyle(
-                          shadows: [
-                            Shadow(
-                                blurRadius: 2.0,
-                                color: kPrimaryDark,
-                                offset: Offset.fromDirection(1.0))
-                          ],
-                          color: kPrimaryLight,
-                          fontSize: 45.0,
-                          fontWeight: FontWeight.w900,
-                        ),
-                        cursor: '|',
-                        speed: const Duration(milliseconds: 250),
-                      ),
-                    ],
-                    totalRepeatCount: 6,
-                  ),
+                  AnimatedTitle(),
                 ],
               ),
               SizedBox(height: 40.0),
@@ -68,7 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
               RoundedButton(
                 title: 'Register',
-                color: kSecondary,
+                color: kSecondaryDark,
                 handlePress: () {
                   Navigator.pushNamed(context, RegistrationScreen.id);
                 },
@@ -77,6 +57,38 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class AnimatedTitle extends StatelessWidget {
+  const AnimatedTitle({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedTextKit(
+      animatedTexts: [
+        TypewriterAnimatedText(
+          'What\'s Chat',
+          textStyle: TextStyle(
+            shadows: [
+              Shadow(
+                blurRadius: 2.0,
+                color: kPrimaryDark,
+                offset: Offset.fromDirection(1.0),
+              ),
+            ],
+            color: kTextLight,
+            fontSize: 45.0,
+            fontWeight: FontWeight.w900,
+          ),
+          cursor: '|',
+          speed: const Duration(milliseconds: 250),
+        ),
+      ],
+      totalRepeatCount: 6,
     );
   }
 }

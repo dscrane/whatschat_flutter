@@ -18,6 +18,8 @@ class ChatListScreen extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
+                padding: EdgeInsets.only(
+                    top: 15.0, left: 0.0, right: 0.0, bottom: 0.0),
                 color: kBackground,
                 child: ChatListView(
                   chats: DummyData,

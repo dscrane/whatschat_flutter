@@ -1,21 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:whats_chat/constants.dart';
 
-class AuthenticationTextField extends StatefulWidget {
-  const AuthenticationTextField({Key? key}) : super(key: key);
+class AuthenticationTextField extends StatelessWidget {
+  AuthenticationTextField({
+    required this.handleChange,
+    required this.fieldType,
+  });
 
-  @override
-  _AuthenticationTextFieldState createState() =>
-      _AuthenticationTextFieldState();
-}
+  final String fieldType;
+  final Function handleChange;
 
-class _AuthenticationTextFieldState extends State<AuthenticationTextField> {
   @override
   Widget build(BuildContext context) {
-    // TODO: Create the authentication form fields
-
-    return Container(
-        // TODO: make email field
-        // TODO: make password field
-        );
+    return Column(
+      children: [
+        TextField(
+          style: TextStyle(color: kTextLight),
+          keyboardType: fieldType == 'email'
+              ? TextInputType.emailAddress
+              : TextInputType.text,
+          obscureText: fieldType == 'password',
+          textAlign: TextAlign.center,
+          onChanged: (value) {
+            handleChange(value);
+          },
+          decoration: kTextFieldDecoration.copyWith(
+            hintText: fieldType == 'password-confirm'
+                ? 'Confirm your password'
+                : 'Enter your $fieldType',
+          ),
+        ),
+      ],
+    );
   }
 }
