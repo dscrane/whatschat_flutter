@@ -9,7 +9,7 @@ class ChatListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kPrimaryDark,
+        backgroundColor: kBackground,
         title: Text('Chats'),
         actions: <Widget>[
           IconButton(

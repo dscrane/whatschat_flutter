@@ -51,7 +51,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               HeroLogo(),
-              kBoxXl,
+              kBoxMd,
               Text('Register your account!', style: kRegistrationTitleStyle),
               kBoxMd,
               AuthenticationTextField(
@@ -76,7 +76,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               kBoxMd,
               RoundedButton(
                 title: 'Register',
-                color: kSecondaryDark,
+                color: kSecondary,
                 handlePress: () {
                   handleRegistration();
                 },

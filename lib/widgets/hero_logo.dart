@@ -13,8 +13,8 @@ class HeroLogo extends StatelessWidget {
             center: Alignment.bottomCenter,
             radius: .65,
             colors: [
-              kPrimaryDark,
-              kSecondaryLight,
+              kPrimaryAccent,
+              kSecondaryAccent,
             ],
           ).createShader(bounds);
         },

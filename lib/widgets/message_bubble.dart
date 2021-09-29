@@ -12,11 +12,10 @@ class MessageBubble extends StatelessWidget {
     // TODO: bubbles will show the timestamp for the messages
     // TODO:
     return Row(
-      mainAxisAlignment:
-          author == 'user1' ? MainAxisAlignment.start : MainAxisAlignment.end,
+      mainAxisAlignment: author == 'user1' ? MainAxisAlignment.start : MainAxisAlignment.end,
       children: [
         Container(
-          color: author == 'user1' ? kSecondary : kPrimary,
+          color: author == 'user1' ? kSecondaryDark : kPrimaryDark,
           height: 50.0,
           child: Text(message),
         ),

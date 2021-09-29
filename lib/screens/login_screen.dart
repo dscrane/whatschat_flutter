@@ -72,11 +72,13 @@ class _LoginScreenState extends State<LoginScreen> {
               AuthenticationTextField(
                 fieldType: 'email',
                 handleChange: updateEmail,
+                isRegistration: false,
               ),
               SizedBox(height: 24.0),
               AuthenticationTextField(
                 fieldType: 'password',
                 handleChange: updatePassword,
+                isRegistration: false,
               ),
               SizedBox(height: 24.0),
               RoundedButton(
