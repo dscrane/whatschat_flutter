@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whats_chat/widgets/message_bubble.dart';
 
 class ChatScreenArguments {
   final String chatName;
@@ -24,9 +25,10 @@ class ChatScreen extends StatelessWidget {
         title: Text(args.chatName),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: args.messages
             .map(
-              (message) => Text(message["message"]),
+              (message) => MessageBubble(message["message"], message["author"]),
             )
             .toList(),
       ),

@@ -98,7 +98,6 @@ const Icon kSearchIcon = Icon(
 );
 
 // Data constants
-const kChatListMenuValues = [];
 
 const DummyChats = [
   {
@@ -129,15 +128,15 @@ const DummyMessages = {
     {"author": "user2", "message": "Message 4"},
   ],
   "0002": [
-    {"author": "tester1", "message": "Soccer 1"},
-    {"author": "tester2", "message": "Soccer 2"},
-    {"author": "tester1", "message": "Soccer 3"},
-    {"author": "tester2", "message": "Soccer 4"},
+    {"author": "user1", "message": "Soccer 1"},
+    {"author": "user2", "message": "Soccer 2"},
+    {"author": "user1", "message": "Soccer 3"},
+    {"author": "user2", "message": "Soccer 4"},
   ],
   "0003": [
-    {"author": "welcome1", "message": "Welcome 1"},
-    {"author": "welcome2", "message": "Welcome 2"},
-    {"author": "welcome1", "message": "Welcome 3"},
-    {"author": "welcome2", "message": "Welcome 4"},
+    {"author": "user1", "message": "Welcome 1"},
+    {"author": "user2", "message": "Welcome 2"},
+    {"author": "user1", "message": "Welcome 3"},
+    {"author": "user2", "message": "Welcome 4"},
   ],
 };
