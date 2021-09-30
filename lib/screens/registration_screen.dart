@@ -13,26 +13,29 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  String email = '';
-  String password = '';
+  late String email;
+  late String password;
+  late String passwordConfirmation;
+  late String username;
 
-  void updateEmail(enteredEmail) {
-    print(enteredEmail);
-    email = enteredEmail;
-  }
-
-  void updatePassword(enteredPassword) {
-    print(enteredPassword);
-    password = enteredPassword;
-  }
-
-  void updateUsername(enteredUsername) {
-    print(enteredUsername);
-    password = enteredUsername;
-  }
+  String? initEmail;
+  String? initUsername;
 
   void handleRegistration() {
-    Navigator.pushNamed(context, ChatListScreen.id);
+    if (password == passwordConfirmation) {
+      print({
+        "username": username,
+        "email": email,
+        "password": password,
+      });
+      Navigator.pushNamed(context, ChatListScreen.id);
+    } else {
+      setState(() {
+        initEmail = email;
+        initUsername = username;
+      });
+      print('Passwords did not match');
+    }
   }
 
   @override
@@ -55,23 +58,25 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               Text('Register your account!', style: kRegistrationTitleStyle),
               kBoxMd,
               AuthenticationTextField(
+                initialValue: initUsername,
                 fieldType: 'username',
-                handleChange: updateUsername,
+                handleChange: (value) => username = value,
               ),
               kBoxMd,
               AuthenticationTextField(
+                initialValue: initEmail,
                 fieldType: 'email',
-                handleChange: updateEmail,
+                handleChange: (value) => email = value,
               ),
               kBoxMd,
               AuthenticationTextField(
                 fieldType: 'password',
-                handleChange: updatePassword,
+                handleChange: (value) => password = value,
               ),
               kBoxMd,
               AuthenticationTextField(
                 fieldType: 'password-confirm',
-                handleChange: updatePassword,
+                handleChange: (value) => passwordConfirmation = value,
               ),
               kBoxMd,
               RoundedButton(

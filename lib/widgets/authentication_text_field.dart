@@ -6,21 +6,27 @@ class AuthenticationTextField extends StatelessWidget {
     required this.handleChange,
     required this.fieldType,
     this.isRegistration = true,
+    this.initialValue,
   });
 
   final String fieldType;
   final Function handleChange;
   final bool isRegistration;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {
+    print(initialValue);
+    final TextEditingController textController =
+        initialValue != null ? TextEditingController(text: initialValue) : TextEditingController();
     var decorationStyle = !isRegistration ? kTextFieldDecoration : kRegistrationTextFieldDecoration;
     return Column(
       children: [
-        TextField(
+        TextFormField(
+          controller: textController,
           style: TextStyle(color: kTextLight),
           keyboardType: fieldType == 'email' ? TextInputType.emailAddress : TextInputType.text,
-          obscureText: fieldType == 'password',
+          obscureText: fieldType == 'password' || fieldType == 'password-confirm',
           textAlign: TextAlign.center,
           onChanged: (value) {
             handleChange(value);
