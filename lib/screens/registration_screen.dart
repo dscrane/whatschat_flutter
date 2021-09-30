@@ -30,6 +30,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       });
       Navigator.pushNamed(context, ChatListScreen.id);
     } else {
+      // Pass in the correct input data for registration form after mismatched passwords
       setState(() {
         initEmail = email;
         initUsername = username;

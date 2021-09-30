@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/utils/icons.dart';
 
 class ChatListTile extends StatelessWidget {
   const ChatListTile({Key? key, this.chatData}) : super(key: key);
@@ -46,7 +47,7 @@ class ChatListTile extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: IconButton(
-                    icon: kMenuIcon,
+                    icon: kIconsMenu,
                     onPressed: () {
                       // Todo: hook up the context menu for the chat_list_screen
                     },

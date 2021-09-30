@@ -115,42 +115,6 @@ const CircleAvatar kUsersAvatar = CircleAvatar(
   radius: 25.0,
 );
 
-const Icon kProfileIcon = Icon(
-  FontAwesomeIcons.user,
-  color: kTextLight,
-);
-
-const Icon kMenuIcon = Icon(
-  FontAwesomeIcons.ellipsisV,
-  color: kSecondaryAccent,
-  size: 18.0,
-);
-
-const Icon kPlusIcon = Icon(
-  FontAwesomeIcons.plus,
-  color: kTextDark,
-);
-
-const Icon kMinusIcon = Icon(
-  FontAwesomeIcons.minus,
-  color: kTextLight,
-);
-
-const Icon kSearchIcon = Icon(
-  FontAwesomeIcons.search,
-  color: kTextLight,
-);
-
-const Icon kSettingsIcon = Icon(
-  FontAwesomeIcons.cog,
-  color: kTextLight,
-);
-
-const Icon kChatsIcon = Icon(
-  FontAwesomeIcons.solidComments,
-  color: kTextLight,
-);
-
 // Data constants
 
 const DummyChats = [
@@ -171,7 +135,7 @@ const DummyChats = [
     'name': 'Welcome Room',
     'createdBy': '9999',
     'lastMessage': 'Welcome to WhatsChat!',
-  }
+  },
 ];
 
 const DummyUsers = {

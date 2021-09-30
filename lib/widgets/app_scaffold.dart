@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/utils/icons.dart';
 import 'package:whats_chat/screens/chat_list_screen.dart';
 import 'package:whats_chat/screens/profile_screen.dart';
 import 'package:whats_chat/screens/settings_screen.dart';
@@ -32,7 +33,7 @@ class AppScaffold extends StatelessWidget {
         title: Text(title),
         actions: <Widget>[
           IconButton(
-            icon: kSearchIcon,
+            icon: kIconsSearch,
             onPressed: () {
               // TODO: add slide in animation for the textField
             },
@@ -44,15 +45,15 @@ class AppScaffold extends StatelessWidget {
         items: [
           BottomNavigationBarItem(
             label: 'Profile',
-            icon: kProfileIcon,
+            icon: kIconsProfile,
           ),
           BottomNavigationBarItem(
             label: 'Chats',
-            icon: kChatsIcon,
+            icon: kIconsChats,
           ),
           BottomNavigationBarItem(
             label: 'Settings',
-            icon: kSettingsIcon,
+            icon: kIconsSettings,
           ),
         ],
         currentIndex: _selectedIndex,

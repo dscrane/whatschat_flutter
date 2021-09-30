@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/utils/icons.dart';
 import 'package:whats_chat/widgets/app_scaffold.dart';
 import 'package:whats_chat/widgets/chat_list_view.dart';
 
@@ -40,7 +41,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
         onPressed: () {
           // TODO: add modal pop up to create a new room
         },
-        child: kPlusIcon,
+        child: kIconsPlus,
         backgroundColor: kSecondaryAccent,
       ),
     );
