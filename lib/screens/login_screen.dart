@@ -1,31 +1,12 @@
 import 'package:flutter/material.dart';
 // import 'package:http/http.dart' as http;
 import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/models/user.dart';
 import 'package:whats_chat/screens/chat_list_screen.dart';
 import 'package:whats_chat/widgets/authentication_text_field.dart';
 import 'package:whats_chat/widgets/hero_logo.dart';
 import 'package:whats_chat/widgets/rounded_button.dart';
-
-// Future getData({username, password}) async {
-//   print('getData() hit');
-//   http.Response res = await http.post(
-//     Uri.parse(
-//       'http://localhost:5500/login-user',
-//     ),
-//     body: {username: username, password: password},
-//     headers: {
-//       'Access-Control-Allow-Origin': "http://localhost:5500/*",
-//       'Content-Security-Policy': "default-src *",
-//     },
-//   );
-//   print(res);
-//   if (res.statusCode == 200) {
-//     String data = res.body;
-//     // return jsonDecode(data);
-//   } else {
-//     print(res.statusCode);
-//   }
-// }
+import 'package:whats_chat/services/networking.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = 'login_screen';
@@ -35,12 +16,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String email = '';
+  String username = '';
   String password = '';
 
-  void updateEmail(enteredEmail) {
-    print(enteredEmail);
-    email = enteredEmail;
+  void updateUsername(enteredUsername) {
+    print(enteredUsername);
+    username = enteredUsername;
   }
 
   void updatePassword(enteredPassword) {
@@ -49,8 +30,17 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void handleLogin() async {
-    Navigator.pop(context);
-    Navigator.pushNamed(context, ChatListScreen.id);
+    var user = await NetworkHelper.loginUser('sampleuser', 'examplepass000');
+    if (user != null) {
+      print(user);
+      User userData = User.fromJsoN(user);
+      print(userData);
+      print(userData.runtimeType);
+      Navigator.pop(context);
+      Navigator.pushNamed(context, ChatListScreen.id);
+    } else {
+      setState(() {});
+    }
   }
 
   @override
@@ -72,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 24.0),
               AuthenticationTextField(
                 fieldType: 'email',
-                handleChange: updateEmail,
+                handleChange: updateUsername,
                 isRegistration: false,
               ),
               SizedBox(height: 24.0),

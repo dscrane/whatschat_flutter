@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:whats_chat/constants.dart';
 import 'package:whats_chat/screens/chat_list_screen.dart';
 import 'package:whats_chat/screens/chat_screen.dart';
