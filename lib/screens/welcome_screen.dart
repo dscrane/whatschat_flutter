@@ -85,7 +85,7 @@ class AnimatedTitle extends StatelessWidget {
             fontWeight: FontWeight.w900,
           ),
           cursor: '|',
-          speed: const Duration(milliseconds: 250),
+          speed: const Duration(milliseconds: 175),
         ),
       ],
       totalRepeatCount: 6,

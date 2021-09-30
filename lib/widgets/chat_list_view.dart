@@ -18,8 +18,10 @@ class ChatListView extends StatelessWidget {
             Navigator.pushNamed(
               context,
               ChatScreen.id,
-              arguments: ChatScreenArguments(chats[index]["name"],
-                  DummyMessages[chats[index]["_id"]]!.toList()),
+              arguments: ChatScreenArguments(
+                chats[index]["name"],
+                DummyMessages[chats[index]["_id"]]!.toList(),
+              ),
             );
           },
           child: ChatListTile(chatData: chats[index]),
