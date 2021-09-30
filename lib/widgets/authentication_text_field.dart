@@ -16,12 +16,13 @@ class AuthenticationTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(initialValue);
     final TextEditingController textController =
         initialValue != null ? TextEditingController(text: initialValue) : TextEditingController();
-    var decorationStyle = !isRegistration ? kTextFieldDecoration : kRegistrationTextFieldDecoration;
+    final InputDecoration decorationStyle =
+        !isRegistration ? kTextFieldDecoration : kRegistrationTextFieldDecoration;
+
     return Column(
-      children: [
+      children: <Widget>[
         TextFormField(
           controller: textController,
           style: TextStyle(color: kTextLight),

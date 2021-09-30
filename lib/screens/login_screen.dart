@@ -49,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void handleLogin() async {
+    Navigator.pop(context);
     Navigator.pushNamed(context, ChatListScreen.id);
   }
 

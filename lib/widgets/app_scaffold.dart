@@ -6,13 +6,17 @@ import 'package:whats_chat/screens/profile_screen.dart';
 import 'package:whats_chat/screens/settings_screen.dart';
 
 class AppScaffold extends StatelessWidget {
-  const AppScaffold(this._selectedIndex,
-      {required this.title, required this.body, this.floatingActionButton});
+  const AppScaffold(
+    this._selectedIndex, {
+    required this.title,
+    required this.body,
+    this.floatingActionButton,
+  });
 
   final int _selectedIndex;
+  final String title;
   final Widget body;
   final Widget? floatingActionButton;
-  final String title;
 
   @override
   Widget build(BuildContext context) {

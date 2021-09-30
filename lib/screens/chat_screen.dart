@@ -32,8 +32,6 @@ class _ChatScreenState extends State<ChatScreen> {
           (message) => MessageBubble(message["message"], message["author"]),
         )
         .toList();
-
-    print(args.chatName);
     // TODO: Create chat screen display
     return Scaffold(
       appBar: AppBar(
