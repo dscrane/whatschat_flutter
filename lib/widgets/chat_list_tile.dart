@@ -7,10 +7,7 @@ class ChatListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(chatData);
     return Row(
-      // Todo: add gesture detection to each tile
-      // Todo: gesture detection should navigate to that chat's screen
       children: <Widget>[
         Expanded(flex: 1, child: kUserAvatar),
         Expanded(

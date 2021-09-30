@@ -8,7 +8,7 @@ const kBoxLg = SizedBox(height: 32.0);
 const kBoxXl = SizedBox(height: 48.0);
 
 // Color scheme constants
-const kBackground = Color(0xff513e64);
+const kBackground = Color(0xff4e4b51);
 const kPrimary = Color(0xff8741c1);
 const kSecondary = Color(0xff2ab2bf);
 const kPrimaryLight = Color(0xffba70f4);
@@ -99,7 +99,7 @@ const CircleAvatar kUserAvatar = CircleAvatar(
   child: Icon(
     FontAwesomeIcons.user,
     size: 20.0,
-    color: kSecondaryDark,
+    color: kSecondary,
   ),
   backgroundColor: kTextLight,
   radius: 20.0,
@@ -115,9 +115,14 @@ const CircleAvatar kUsersAvatar = CircleAvatar(
   radius: 25.0,
 );
 
+const Icon kProfileIcon = Icon(
+  FontAwesomeIcons.user,
+  color: kTextLight,
+);
+
 const Icon kMenuIcon = Icon(
   FontAwesomeIcons.ellipsisV,
-  color: kPrimary,
+  color: kSecondaryAccent,
   size: 18.0,
 );
 
@@ -133,6 +138,16 @@ const Icon kMinusIcon = Icon(
 
 const Icon kSearchIcon = Icon(
   FontAwesomeIcons.search,
+  color: kTextLight,
+);
+
+const Icon kSettingsIcon = Icon(
+  FontAwesomeIcons.cog,
+  color: kTextLight,
+);
+
+const Icon kChatsIcon = Icon(
+  FontAwesomeIcons.solidComments,
   color: kTextLight,
 );
 
