@@ -1,27 +1,17 @@
 import 'package:http/http.dart' as http;
 
 class NetworkHelper {
-  NetworkHelper(this.username, this.password);
-  final username;
-  final password;
+  final urlString = "http://localhost:5500";
 
-  Future getData() async {
-    http.Response res = await http.post(
-      Uri.parse(
-        'http://localhost:5500/login-user',
-      ),
-      body: {username: username, password: password},
-      headers: {
-        'Access-Control-Allow-Origin': "http://localhost:5500/*",
-        'Content-Security-Policy': "default-src *",
-      },
-    );
-    print(res);
-    if (res.statusCode == 200) {
-      String data = res.body;
-      // return jsonDecode(data);
-    } else {
-      print(res.statusCode);
-    }
+  Future getUserProfile() async {
+    // return user profile from database
+  }
+
+  Future getChats() async {
+    // return list of chats from database
+  }
+
+  Future getMessages(chatId) async {
+    // return list of messages for currently selected chat room
   }
 }
