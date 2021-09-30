@@ -1,5 +1,5 @@
-import 'user.dart';
-import 'message.dart';
+import 'package:whats_chat/models/user.dart';
+import 'package:whats_chat/models/message.dart';
 
 class Chat {
   String id;
