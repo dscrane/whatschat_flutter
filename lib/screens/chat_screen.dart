@@ -33,10 +33,11 @@ class _ChatScreenState extends State<ChatScreen> {
         )
         .toList();
     // TODO: Create chat screen display
+
     return Scaffold(
       appBar: AppBar(
         // leading: , // TODO: have the conversation partners avatar show as the leading
-        title: Text(args.chatName),
+        title: Text(args.chatName.toUpperCase()),
       ),
       body: SafeArea(
         child: Column(
