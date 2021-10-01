@@ -2,13 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:whats_chat/constants.dart';
 import 'package:whats_chat/widgets/message_bubble.dart';
 
-class ChatScreenArguments {
-  final String chatName;
-  final List messages;
-
-  ChatScreenArguments(this.chatName, this.messages);
-}
-
 class ChatScreen extends StatefulWidget {
   static String id = 'chat_screen';
   ChatScreen({this.chatName, this.messages});
@@ -79,4 +72,11 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
+}
+
+class ChatScreenArguments {
+  final String chatName;
+  final List messages;
+
+  ChatScreenArguments(this.chatName, this.messages);
 }

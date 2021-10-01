@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'chat_list_tile.dart';
 import 'package:whats_chat/constants.dart';
-import '../screens/chat_screen.dart';
+import '../../chat_screen/chat_screen.dart';
 
 class ChatListView extends StatelessWidget {
   const ChatListView({Key? key, this.chats}) : super(key: key);

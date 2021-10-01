@@ -1,22 +1,28 @@
 class User {
-  String id;
-  String username;
-  String name;
-  List rooms;
-  String avatar;
+  String _id;
+  String _username;
+  String _name;
+  List _rooms;
+  String _avatar;
 
-  User({
-    required this.id,
-    required this.username,
-    required this.name,
-    required this.avatar,
-    required this.rooms,
-  });
+  User(
+    this._id,
+    this._username,
+    this._name,
+    this._avatar,
+    this._rooms,
+  );
 
   User.fromJsoN(Map<String, dynamic> json)
-      : this.id = json['_id'],
-        this.username = json['username'],
-        this.name = json['name'],
-        this.rooms = json['currentRooms'],
-        this.avatar = json['avatar'];
+      : this._id = json['_id'],
+        this._username = json['username'],
+        this._name = json['name'],
+        this._rooms = json['currentRooms'],
+        this._avatar = json['avatar'];
+
+  get id => _id;
+  get username => _username;
+  get name => _name;
+  get rooms => _rooms;
+  get avatar => _avatar;
 }

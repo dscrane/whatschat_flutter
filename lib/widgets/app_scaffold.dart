@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:whats_chat/constants.dart';
 import 'package:whats_chat/utils/icons.dart';
-import 'package:whats_chat/screens/chat_list_screen.dart';
-import 'package:whats_chat/screens/profile_screen.dart';
-import 'package:whats_chat/screens/settings_screen.dart';
+import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
+import 'package:whats_chat/screens/profile_screen/profile_screen.dart';
+import 'package:whats_chat/screens/settings_screen/settings_screen.dart';
 
 class AppScaffold extends StatelessWidget {
   const AppScaffold(
