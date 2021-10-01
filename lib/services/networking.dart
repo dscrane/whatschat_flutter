@@ -28,31 +28,31 @@ class NetworkHelper {
     }
   }
 
-  static Future getRooms(rooms) async {
-    // Format and encode data in JSON format for request body
-    Map<String, List> requestMap = {"rooms": rooms};
-    String encodedData = json.encode(requestMap);
-    try {
-      // Post users current list of rooms
-      Response response = await post(
-        Uri.parse('http://192.168.1.32:5500/MessagesDisplay'),
-        body: encodedData,
-        headers: {HttpHeaders.authorizationHeader: testToken},
-      );
-
-      // Decode json return in response body
-      List<dynamic> decodedData = json.decode(response.body)["chats"];
-
-      // Reformat response body data into an list of chat rooms
-      List<Map<String, dynamic>> roomList =
-          decodedData.map((chat) => Map<String, dynamic>.from(chat)).toList();
-
-      // Return the formatted list of rooms
-      return roomList;
-    } catch (e) {
-      print(e);
-    }
-  }
+  // static Future getRooms(rooms) async {
+  //   // Format and encode data in JSON format for request body
+  //   Map<String, List> requestMap = {"rooms": rooms};
+  //   String encodedData = json.encode(requestMap);
+  //   try {
+  //     // Post users current list of rooms
+  //     Response response = await post(
+  //       Uri.parse('http://192.168.1.32:5500/MessagesDisplay'),
+  //       body: encodedData,
+  //       headers: {HttpHeaders.authorizationHeader: testToken},
+  //     );
+  //
+  //     // Decode json return in response body
+  //     List<dynamic> decodedData = json.decode(response.body)["chats"];
+  //
+  //     // Reformat response body data into an list of chat rooms
+  //     List<Map<String, dynamic>> roomList =
+  //         decodedData.map((chat) => Map<String, dynamic>.from(chat)).toList();
+  //
+  //     // Return the formatted list of rooms
+  //     return roomList;
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   static Future getUserProfile() async {
     // return user profile from database

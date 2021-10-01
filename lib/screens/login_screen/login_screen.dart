@@ -4,6 +4,7 @@ import 'package:whats_chat/constants.dart';
 import 'package:whats_chat/providers/session_provider.dart';
 import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
 import 'package:whats_chat/screens/chat_screen/widgets/rounded_button.dart';
+import 'package:whats_chat/services/socket.dart';
 import 'package:whats_chat/widgets/authentication_text_field.dart';
 import 'package:whats_chat/widgets/hero_logo.dart';
 
@@ -25,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void handleLogin() async {
     await context.read<SessionProvider>().handleUserLogin('sampleuser', 'examplepass000');
     if (context.read<SessionProvider>().authenticated) {
+      context.read<SessionProvider>().set(SocketController.socket);
       Navigator.pop(context);
       Navigator.pushNamed(context, ChatListScreen.id);
     } else {
@@ -36,7 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(context.read<SessionProvider>().authenticated);
     return Scaffold(
       backgroundColor: kBackground,
       body: Center(

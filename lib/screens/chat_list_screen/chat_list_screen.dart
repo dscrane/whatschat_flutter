@@ -23,6 +23,13 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Socket socket = context.read<SessionProvider>().socket;
+    socket.connect();
+    socket.onConnect((_) {
+      print('connected');
+      socket.emit('fetch-initial-data', context.read<SessionProvider>().user.id);
+    });
+    socket.on('initial-data', (data) => context.read<SessionProvider>().updateRooms(data));
     return AppScaffold(
       ChatListScreen.navigationIndex,
       title: 'Chats',

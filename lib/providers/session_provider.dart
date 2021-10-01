@@ -1,12 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:whats_chat/models/user.dart';
 import 'package:whats_chat/services/networking.dart';
 
 // ignore: prefer_mixin
 class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
   late User _user;
-  bool _authenticated = false;
+  late bool _authenticated;
+  late IO.Socket _socket;
   List<Map<String, dynamic>> _rooms = [];
 
   User get user => _user;
@@ -18,18 +20,25 @@ class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
   List<Map<String, dynamic>> get rooms => _rooms;
   void set rooms(rooms) => _rooms = rooms;
 
-  Future<bool> handleUserLogin(username, password) async {
+  IO.Socket get socket => _socket;
+  IO.Socket set(socketInstance) => _socket = socketInstance;
+
+  Future handleUserLogin(username, password) async {
     try {
       Map<String, dynamic> loginUser = await NetworkHelper.loginUser(username, password);
       User loginUserData = User.fromJsoN(loginUser);
       this.userLogin(loginUserData);
-      List<Map<String, dynamic>> fetchedRooms = await NetworkHelper.getRooms(this._user.rooms);
-      this.setRooms(fetchedRooms);
-      return true;
     } catch (e) {
       print(e);
-      return false;
+      this.authenticated = false;
     }
+  }
+
+  void updateRooms(List<dynamic> rooms) {
+    List<Map<String, dynamic>> roomList =
+        rooms.map((chat) => Map<String, dynamic>.from(chat)).toList();
+
+    this._setRooms(roomList);
   }
 
   void userLogin(User loginUser) {
@@ -38,7 +47,7 @@ class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
-  void setRooms(List<Map<String, dynamic>> rooms) {
+  void _setRooms(List<Map<String, dynamic>> rooms) {
     this.rooms = rooms;
     notifyListeners();
   }
