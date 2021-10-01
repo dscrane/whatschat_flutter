@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:whats_chat/constants.dart';
 
 class NetworkHelper {
-  final urlString = "//localhost:5500";
+  final urlString = "http://192.168.1.32:5500";
 
   static Future loginUser(String username, String password) async {
     // Format and encode data in JSON format for request body
