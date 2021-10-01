@@ -119,48 +119,20 @@ const CircleAvatar kUsersAvatar = CircleAvatar(
 );
 
 // Data constants
-
-const DummyChats = [
-  {
-    '_id': '0001',
-    'name': 'Buddies',
-    'createdBy': '9991',
-    'lastMessage': 'This was the last message!!',
-  },
-  {
-    '_id': '0002',
-    'name': 'Soccer',
-    'createdBy': '9990',
-    'lastMessage': 'Great game last week!!',
-  },
-  {
-    '_id': '0003',
-    'name': 'Welcome Room',
-    'createdBy': '9999',
-    'lastMessage': 'Welcome to WhatsChat!',
-  },
-];
-
-const DummyUsers = {
-  '9999': {
-    "name": "John",
-  }
-};
-
 const DummyMessages = {
-  "0001": [
+  "Buddies": [
     {"author": "user1", "message": "Message 1"},
     {"author": "user2", "message": "Message 2"},
     {"author": "user1", "message": "Message 3"},
     {"author": "user2", "message": "Message 4"},
   ],
-  "0002": [
+  "soccer": [
     {"author": "user1", "message": "Soccer 1"},
     {"author": "user2", "message": "Soccer 2"},
     {"author": "user1", "message": "Soccer 3"},
     {"author": "user2", "message": "Soccer 4"},
   ],
-  "0003": [
+  "welcome room": [
     {"author": "user1", "message": "Welcome 1"},
     {"author": "user2", "message": "Welcome 2"},
     {"author": "user1", "message": "Welcome 3"},

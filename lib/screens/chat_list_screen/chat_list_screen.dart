@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/providers/session_provider.dart';
 import 'package:whats_chat/utils/icons.dart';
 import 'package:whats_chat/widgets/app_scaffold.dart';
 import 'package:whats_chat/screens/chat_list_screen/widgets/chat_list_view.dart';
@@ -29,9 +31,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                   right: 0.0,
                   bottom: 0.0,
                 ),
-                child: ChatListView(
-                  chats: DummyChats,
-                ),
+                child: ChatListView(),
               ),
             ),
           ],

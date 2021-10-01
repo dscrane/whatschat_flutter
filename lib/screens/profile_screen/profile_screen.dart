@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:whats_chat/providers/session_provider.dart';
+import 'package:whats_chat/models/user.dart';
 import 'package:whats_chat/widgets/app_scaffold.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -16,7 +19,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return AppScaffold(
       ProfileScreen.navigationIndex,
       title: 'Profile',
-      body: Container(),
+      body: Column(
+        children: [
+          Text('${context.watch<SessionProvider>().user}'),
+          TextButton(
+            onPressed: () {
+              // context.read<SessionProvider>().addData("state updated data");
+            },
+            child: Text('click for profile'),
+          )
+        ],
+      ),
     );
   }
 }

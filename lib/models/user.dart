@@ -2,7 +2,7 @@ class User {
   String _id;
   String _username;
   String _name;
-  List _rooms;
+  List<String> _rooms;
   String _avatar;
 
   User(
@@ -17,7 +17,7 @@ class User {
       : this._id = json['_id'],
         this._username = json['username'],
         this._name = json['name'],
-        this._rooms = json['currentRooms'],
+        this._rooms = json['currentRooms'].map<String>((room) => room.toString()).toList(),
         this._avatar = json['avatar'];
 
   get id => _id;
