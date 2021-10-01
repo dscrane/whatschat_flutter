@@ -3,8 +3,8 @@ import 'package:whats_chat/constants.dart';
 import 'package:whats_chat/utils/icons.dart';
 
 class ChatListTile extends StatelessWidget {
-  const ChatListTile({Key? key, this.chatData}) : super(key: key);
-  final chatData;
+  const ChatListTile({Key? key, this.room}) : super(key: key);
+  final room;
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +31,13 @@ class ChatListTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        chatData["name"],
+                        room.name,
                         style: kChatListTitleStyle,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Text(
-                          chatData["lastMessage"],
+                          room.lastMessage,
                           style: kChatListMessageStyle,
                         ),
                       )

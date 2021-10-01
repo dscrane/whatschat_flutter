@@ -26,7 +26,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
     Socket socket = context.read<SessionProvider>().socket;
     socket.connect();
     socket.onConnect((_) {
-      print('connected');
+      if (context.read<SessionProvider>().rooms != null) {
+        return;
+      }
       socket.emit('fetch-initial-data', context.read<SessionProvider>().user.id);
     });
     socket.on('initial-data', (data) => context.read<SessionProvider>().updateRooms(data));
@@ -45,7 +47,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                   right: 0.0,
                   bottom: 0.0,
                 ),
-                child: ChatListView(),
+                child: ChatListView(context.watch<SessionProvider>().rooms ?? []),
               ),
             ),
           ],
