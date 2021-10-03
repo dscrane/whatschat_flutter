@@ -1,28 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/models/room.dart';
+import 'package:whats_chat/providers/session_provider.dart';
+
 import 'package:whats_chat/widgets/message_bubble.dart';
 
 class ChatScreen extends StatefulWidget {
   static String id = 'chat_screen';
-  ChatScreen({this.chatName, this.messages});
-  final String? chatName;
-  final List? messages;
+  // ChatScreen(/*{this.chatName, this.messages}*/);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   final messageTextController = TextEditingController();
   late String newMessageText;
+  var messages = [];
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as ChatScreenArguments;
+    Room currentRoom = context.watch<SessionProvider>().currentRoom;
 
-    List<MessageBubble> messageBubbles = args.messages
+    List<MessageBubble> messageBubbles = currentRoom.messages
         .map(
-          (message) => MessageBubble(message["message"], message["author"]),
+          (message) => MessageBubble(message.message, message.author),
         )
         .toList();
     // TODO: Create chat screen display
@@ -30,7 +38,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         // leading: , // TODO: have the conversation partners avatar show as the leading
-        title: Text(args.chatName.toUpperCase()),
+        title: Text(currentRoom.name.toUpperCase()),
       ),
       body: SafeArea(
         child: Column(
@@ -74,9 +82,9 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 }
 
-class ChatScreenArguments {
-  final String chatName;
-  final List messages;
-
-  ChatScreenArguments(this.chatName, this.messages);
-}
+// class ChatScreenArguments {
+//   final String chatName;
+//   final List messages;
+//
+//   ChatScreenArguments(this.chatName, this.messages);
+// }

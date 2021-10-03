@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:whats_chat/providers/session_provider.dart';
 import 'package:whats_chat/constants.dart';
-import 'package:whats_chat/services/socket.dart';
 import 'package:whats_chat/utils/icons.dart';
 import 'package:whats_chat/widgets/app_scaffold.dart';
 import 'package:whats_chat/screens/chat_list_screen/widgets/chat_list_view.dart';

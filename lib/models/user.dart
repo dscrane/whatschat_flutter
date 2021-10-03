@@ -20,9 +20,9 @@ class User {
         this._rooms = json['currentRooms'].map<String>((room) => room.toString()).toList(),
         this._avatar = json['avatar'];
 
-  get id => _id;
-  get username => _username;
-  get name => _name;
-  get rooms => _rooms;
-  get avatar => _avatar;
+  String get id => _id;
+  String get username => _username;
+  String get name => _name;
+  List<String> get rooms => _rooms;
+  String get avatar => _avatar;
 }

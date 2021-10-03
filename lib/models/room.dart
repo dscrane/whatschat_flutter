@@ -7,7 +7,7 @@ class Room {
   List<dynamic> _currentMembers;
   Map<String, dynamic> _instance;
   String? _createdBy;
-  late List<Message> _messages;
+  List<Message> _messages = [];
   late int _unreadMessages;
 
   Room(
@@ -37,4 +37,6 @@ class Room {
   List<Message> get messages => _messages;
   List<dynamic> get currentMembers => _currentMembers;
   Map<String, dynamic> get instance => _instance;
+
+  void set messages(List<Message> messages) => _messages = messages;
 }
