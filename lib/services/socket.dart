@@ -7,8 +7,16 @@ class SocketController {
 
   static get socket => _socket;
 
+  static void initialData(userId) {
+    _socket.emitWithAck(
+      'fetch-initial-data',
+      userId,
+      ack: (data) => Log.ack(data),
+    );
+  }
+
   static void createRoom(roomName, userName) {
-    socket.emitWithAck(
+    _socket.emitWithAck(
       "create-chatroom",
       [roomName, userName],
       ack: (data) => Log.ack(data),
@@ -24,7 +32,7 @@ class SocketController {
   }
 
   static void rejoinRoom(newChatroomName, oldChatroomName, userName) {
-    socket.emitWithAck(
+    _socket.emitWithAck(
         "rejoin-chatroom",
         [
           newChatroomName,
@@ -34,16 +42,18 @@ class SocketController {
         ack: (data) => Log.ack(data));
   }
 
-  static void fetchMessages() {
-    // socket.emitWithAck("fetching-messages", chatroomName, ack: (data) => Log.ack(data));
+  static void fetchMessages(room) {
+    Log.emit(['fetching-messages', room]);
+    _socket.emitWithAck("fetching-messages", room, ack: (data) => Log.ack(data));
   }
+
   static void fendMessage() {
-    // socket.emitWithAck("new-message", { ...messageData }, ack: (data) => Log.ack(data));
+    // _socket.emitWithAck("new-message", { ...messageData }, ack: (data) => Log.ack(data));
   }
   static void leaveRoom() {
-    // socket.emitWithAck("leave-chatroom", chatroomName, userName, ack: (data) => Log.ack(data));
+    // _socket.emitWithAck("leave-chatroom", chatroomName, userName, ack: (data) => Log.ack(data));
   }
   static void deleteRoom() {
-    // socket.emitWithAck("delete-chatroom", chatroomName, ack: (data) => Log.ack(data));
+    // _socket.emitWithAck("delete-chatroom", chatroomName, ack: (data) => Log.ack(data));
   }
 }

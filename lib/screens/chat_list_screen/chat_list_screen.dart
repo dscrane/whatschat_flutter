@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:whats_chat/providers/session_provider.dart';
 import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/services/socket.dart';
 import 'package:whats_chat/utils/icons.dart';
 import 'package:whats_chat/widgets/app_scaffold.dart';
 import 'package:whats_chat/screens/chat_list_screen/widgets/chat_list_view.dart';
@@ -16,21 +17,39 @@ class ChatListScreen extends StatefulWidget {
 
 class _ChatListScreenState extends State<ChatListScreen> {
   @override
+  void initState() {
+    connectToServer();
+    super.initState();
+  }
+
+  @override
   dispose() {
     super.dispose();
   }
 
+  void connectToServer() {
+    try {
+      Socket socket = context.read<SessionProvider>().socket;
+      socket.connect();
+      socket.onConnect((_) {
+        if (context.read<SessionProvider>().rooms != null) {
+          return;
+        }
+        SocketController.initialData(context.read<SessionProvider>().user.id);
+      });
+      socket.on('initial-data', (data) => context.read<SessionProvider>().updateRooms(data));
+      socket.on('fetch-messages', (data) => SocketController.fetchMessages(data));
+      socket.on(
+        'fetched-messages',
+        (data) => context.read<SessionProvider>().populateMessages(data[1]),
+      );
+    } catch (e) {
+      //
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Socket socket = context.read<SessionProvider>().socket;
-    socket.connect();
-    socket.onConnect((_) {
-      if (context.read<SessionProvider>().rooms != null) {
-        return;
-      }
-      socket.emit('fetch-initial-data', context.read<SessionProvider>().user.id);
-    });
-    socket.on('initial-data', (data) => context.read<SessionProvider>().updateRooms(data));
     return AppScaffold(
       ChatListScreen.navigationIndex,
       title: 'Chats',

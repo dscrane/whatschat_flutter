@@ -8,7 +8,6 @@ import 'package:whats_chat/widgets/message_bubble.dart';
 
 class ChatScreen extends StatefulWidget {
   static String id = 'chat_screen';
-  // ChatScreen(/*{this.chatName, this.messages}*/);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -30,7 +29,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     List<MessageBubble> messageBubbles = currentRoom.messages
         .map(
-          (message) => MessageBubble(message.message, message.author),
+          (message) => MessageBubble(message),
         )
         .toList();
     // TODO: Create chat screen display
@@ -64,14 +63,15 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   TextButton(
-                      onPressed: () {
-                        messageTextController.clear();
-                        print(newMessageText);
-                      },
-                      child: Text(
-                        'Send',
-                        style: kSendButtonStyle,
-                      ))
+                    onPressed: () {
+                      messageTextController.clear();
+                      print(newMessageText);
+                    },
+                    child: Text(
+                      'Send',
+                      style: kSendButtonStyle,
+                    ),
+                  )
                 ],
               ),
             )

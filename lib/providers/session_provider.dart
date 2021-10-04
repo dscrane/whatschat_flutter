@@ -5,7 +5,6 @@ import 'package:whats_chat/models/message.dart';
 import 'package:whats_chat/models/room.dart';
 import 'package:whats_chat/models/user.dart';
 import 'package:whats_chat/services/networking.dart';
-import 'package:whats_chat/services/socket.dart';
 
 // ignore: prefer_mixin
 class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
@@ -42,11 +41,13 @@ class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   void populateMessages(List<dynamic> messages) {
-    List<Message> messageList =
-        messages.map<Message>((message) => Message.fromSocket(message)).toList();
+    List<Message> messageList = messages
+        .map<Message>(
+          (message) => Message.fromSocket(message),
+        )
+        .toList();
 
-    this.currentRoom.messages = messageList;
-    notifyListeners();
+    this._setMessages(messageList);
   }
 
   void updateRooms(List<dynamic> rooms) {
@@ -71,6 +72,11 @@ class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
 
   void _setRooms(List<Room> rooms) {
     this.rooms = rooms;
+    notifyListeners();
+  }
+
+  void _setMessages(List<Message> messages) {
+    this.currentRoom.messages = messages;
     notifyListeners();
   }
 

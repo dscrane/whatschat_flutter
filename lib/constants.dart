@@ -95,6 +95,46 @@ const kRegistrationTextFieldDecoration = InputDecoration(
       borderSide: BorderSide(color: kSecondaryAccent, width: 2.0),
       borderRadius: BorderRadius.all(Radius.circular(32.0)),
     ));
+
+const kMessageTimestampStyle = TextStyle(
+  color: kTextLightFaded,
+  fontSize: 9.0,
+);
+
+const Map<String, dynamic> kSentMessageStyle = {
+  'alignment': CrossAxisAlignment.end,
+  'background': kSecondaryDark,
+  'border': BorderRadius.only(
+    topLeft: Radius.circular(10.0),
+    topRight: Radius.circular(0.0),
+    bottomLeft: Radius.circular(10.0),
+    bottomRight: Radius.circular(10.0),
+  ),
+  'text': TextStyle(
+    color: kTextLight,
+    fontFamily: 'Source-Sans',
+    fontWeight: FontWeight.w500,
+    fontSize: 15.0,
+  ),
+};
+
+const Map<String, dynamic> kReceivedMessageStyle = {
+  'alignment': CrossAxisAlignment.start,
+  'background': kPrimaryDark,
+  'border': BorderRadius.only(
+    topLeft: Radius.circular(0.0),
+    topRight: Radius.circular(10.0),
+    bottomLeft: Radius.circular(10.0),
+    bottomRight: Radius.circular(10.0),
+  ),
+  'text': TextStyle(
+    color: kTextLight,
+    fontFamily: 'Source-Sans',
+    fontWeight: FontWeight.w500,
+    fontSize: 15.0,
+  ),
+};
+
 // Functional constants
 
 // Icon constants
