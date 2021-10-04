@@ -5,7 +5,9 @@ import 'package:whats_chat/models/message.dart';
 import 'package:whats_chat/providers/session_provider.dart';
 
 class MessageBubble extends StatelessWidget {
-  const MessageBubble(this.message);
+  const MessageBubble({required Key key, required Message message})
+      : this.message = message,
+        super(key: key);
   final Message message;
 
   @override

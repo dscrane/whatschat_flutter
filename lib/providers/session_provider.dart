@@ -32,8 +32,9 @@ class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
   Future handleUserLogin(username, password) async {
     try {
       Map<String, dynamic> loginUser = await NetworkHelper.loginUser(username, password);
-      User loginUserData = User.fromJsoN(loginUser);
-      this._userLogin(loginUserData);
+      this.user = User.fromJsoN(loginUser);
+      this.authenticated = true;
+      notifyListeners();
     } catch (e) {
       print(e);
       this.authenticated = false;
@@ -46,37 +47,31 @@ class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
           (message) => Message.fromSocket(message),
         )
         .toList();
+    this.currentRoom.messages = messageList;
+    notifyListeners();
+  }
 
-    this._setMessages(messageList);
+  void displayNewMessage(message) {
+    Message newMessage = Message.fromSocket(message);
+
+    this.currentRoom.newMessage(newMessage);
+    notifyListeners();
   }
 
   void updateRooms(List<dynamic> rooms) {
     List<Room> roomList = rooms.map<Room>((room) => Room.fromSocket(room)).toList();
-    this._setRooms(roomList);
+    this.rooms = roomList;
+    notifyListeners();
   }
 
   void updateCurrentRoom(Room room) {
-    this._setRoom(room);
+    this.currentRoom = room;
+    notifyListeners();
   }
 
-  void _userLogin(User loginUser) {
+  void userLogin(User loginUser) {
     this.user = loginUser;
     this.authenticated = true;
-    notifyListeners();
-  }
-
-  void _setRoom(Room room) {
-    this._currentRoom = room;
-    notifyListeners();
-  }
-
-  void _setRooms(List<Room> rooms) {
-    this.rooms = rooms;
-    notifyListeners();
-  }
-
-  void _setMessages(List<Message> messages) {
-    this.currentRoom.messages = messages;
     notifyListeners();
   }
 

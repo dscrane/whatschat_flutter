@@ -1,5 +1,8 @@
+import 'dart:convert';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/providers/session_provider.dart';
 import 'package:whats_chat/utils/icons.dart';
 
 class ChatListTile extends StatelessWidget {
@@ -10,7 +13,17 @@ class ChatListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Expanded(flex: 1, child: kUserAvatar),
+        Padding(
+          padding: EdgeInsets.only(left: 10.0, top: 5.0, right: 5.0, bottom: 5.0),
+          child: ClipOval(
+            child: Image.memory(
+              base64Decode(context.read<SessionProvider>().user.avatar),
+              height: 35.0,
+              width: 35.0,
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
         Expanded(
           flex: 5,
           child: Container(

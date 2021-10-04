@@ -39,4 +39,6 @@ class Room {
   Map<String, dynamic> get instance => _instance;
 
   void set messages(List<Message> messages) => _messages = messages;
+
+  void newMessage(Message message) => this.messages.add(message);
 }

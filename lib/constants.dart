@@ -150,12 +150,12 @@ const CircleAvatar kUserAvatar = CircleAvatar(
 
 const CircleAvatar kUsersAvatar = CircleAvatar(
   child: Icon(
-    FontAwesomeIcons.userFriends,
-    size: 25.0,
+    FontAwesomeIcons.users,
+    size: 18.0,
     color: kSecondaryDark,
   ),
   backgroundColor: kTextLight,
-  radius: 25.0,
+  radius: 20.0,
 );
 
 // Data constants

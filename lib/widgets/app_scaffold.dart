@@ -20,16 +20,9 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _onItemTapped(int index) {
-      if (index == 0) {
-        Navigator.pushNamed(context, ProfileScreen.id);
-      } else if (index == 1) {
-        Navigator.pushNamed(context, ChatListScreen.id);
-      } else if (index == 2) {
-        Navigator.pushNamed(context, SettingsScreen.id);
-      }
-    }
-
+    final hasBottomNavigation =
+        title == ProfileScreen.id || title == ChatListScreen.id || title == SettingsScreen.id;
+    print(hasBottomNavigation);
     return Scaffold(
       backgroundColor: kBackground,
       appBar: AppBar(
@@ -45,25 +38,56 @@ class AppScaffold extends StatelessWidget {
         ],
       ),
       body: body,
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            label: 'Profile',
-            icon: kIconsProfile,
-          ),
-          BottomNavigationBarItem(
-            label: 'Chats',
-            icon: kIconsChats,
-          ),
-          BottomNavigationBarItem(
-            label: 'Settings',
-            icon: kIconsSettings,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: kSecondaryAccent,
-        onTap: _onItemTapped,
-      ),
+      bottomNavigationBar: BottomNavigation(selectedIndex: _selectedIndex),
+    );
+  }
+}
+
+class BottomNavigation extends StatelessWidget {
+  const BottomNavigation({
+    Key? key,
+    required int selectedIndex,
+  })  : _selectedIndex = selectedIndex,
+        super(key: key);
+
+  final int _selectedIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    print(_selectedIndex);
+    if (_selectedIndex > 3) {
+      return SizedBox(
+        height: 0.0,
+      );
+    }
+    void _onItemTapped(int index) {
+      if (index == 0) {
+        Navigator.pushNamed(context, ProfileScreen.id);
+      } else if (index == 1) {
+        Navigator.pushNamed(context, ChatListScreen.id);
+      } else if (index == 2) {
+        Navigator.pushNamed(context, SettingsScreen.id);
+      }
+    }
+
+    return BottomNavigationBar(
+      items: [
+        BottomNavigationBarItem(
+          label: 'Profile',
+          icon: kIconsProfile,
+        ),
+        BottomNavigationBarItem(
+          label: 'Chats',
+          icon: kIconsChats,
+        ),
+        BottomNavigationBarItem(
+          label: 'Settings',
+          icon: kIconsSettings,
+        ),
+      ],
+      currentIndex: _selectedIndex,
+      selectedItemColor: kSecondaryAccent,
+      onTap: _onItemTapped,
     );
   }
 }

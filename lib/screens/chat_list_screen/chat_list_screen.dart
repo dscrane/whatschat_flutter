@@ -28,21 +28,23 @@ class _ChatListScreenState extends State<ChatListScreen> {
   }
 
   void connectToServer() {
+    SessionProvider sessionReader = context.read<SessionProvider>();
     try {
-      Socket socket = context.read<SessionProvider>().socket;
+      Socket socket = sessionReader.socket;
       socket.connect();
       socket.onConnect((_) {
-        if (context.read<SessionProvider>().rooms != null) {
+        if (sessionReader.rooms != null) {
           return;
         }
-        SocketController.initialData(context.read<SessionProvider>().user.id);
+        SocketController.initialData(sessionReader.user.id);
       });
-      socket.on('initial-data', (data) => context.read<SessionProvider>().updateRooms(data));
+      socket.on('initial-data', (data) => sessionReader.updateRooms(data));
       socket.on('fetch-messages', (data) => SocketController.fetchMessages(data));
       socket.on(
         'fetched-messages',
-        (data) => context.read<SessionProvider>().populateMessages(data[1]),
+        (data) => sessionReader.populateMessages(data[1]),
       );
+      socket.on('return-message', (data) => sessionReader.displayNewMessage(data[1]));
     } catch (e) {
       //
     }

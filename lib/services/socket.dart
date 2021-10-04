@@ -8,6 +8,8 @@ class SocketController {
   static get socket => _socket;
 
   static void initialData(userId) {
+    Log.emit(['initial-data', userId]);
+
     _socket.emitWithAck(
       'fetch-initial-data',
       userId,
@@ -16,6 +18,8 @@ class SocketController {
   }
 
   static void createRoom(roomName, userName) {
+    Log.emit(['create-room', roomName]);
+
     _socket.emitWithAck(
       "create-chatroom",
       [roomName, userName],
@@ -24,6 +28,8 @@ class SocketController {
   }
 
   static void joinRoom(String roomName, String userName) {
+    Log.emit(['join-room', roomName]);
+
     _socket.emitWithAck(
       "join-chatroom",
       [roomName, null, userName],
@@ -44,12 +50,16 @@ class SocketController {
 
   static void fetchMessages(room) {
     Log.emit(['fetching-messages', room]);
+
     _socket.emitWithAck("fetching-messages", room, ack: (data) => Log.ack(data));
   }
 
-  static void fendMessage() {
-    // _socket.emitWithAck("new-message", { ...messageData }, ack: (data) => Log.ack(data));
+  static void sendMessage(messageData) {
+    Log.emit(['new-messages', messageData]);
+
+    _socket.emitWithAck("new-message", messageData, ack: (data) => Log.ack(data));
   }
+
   static void leaveRoom() {
     // _socket.emitWithAck("leave-chatroom", chatroomName, userName, ack: (data) => Log.ack(data));
   }
