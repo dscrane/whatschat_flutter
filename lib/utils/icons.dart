@@ -22,6 +22,11 @@ const Icon kIconsMinus = Icon(
   color: kTextLight,
 );
 
+const Icon kIconsClose = Icon(
+  FontAwesomeIcons.times,
+  color: kTextLight,
+);
+
 const Icon kIconsSearch = Icon(
   FontAwesomeIcons.search,
   color: kTextLight,

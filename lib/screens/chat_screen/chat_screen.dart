@@ -10,7 +10,7 @@ import 'package:whats_chat/widgets/message_bubble.dart';
 
 class ChatScreen extends StatefulWidget {
   static String id = 'chat_screen';
-
+  static const int navigationIndex = 99;
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
@@ -42,7 +42,7 @@ class _ChatScreenState extends State<ChatScreen> {
     // TODO: Create chat screen display
 
     return AppScaffold(
-      99,
+      ChatScreen.navigationIndex,
       title: currentRoom.name,
       body: SafeArea(
         child: Column(
@@ -52,7 +52,6 @@ class _ChatScreenState extends State<ChatScreen> {
             Expanded(
               child: ListView(
                 reverse: true,
-                // controller: _scrollController,
                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
                 children: messageBubbles.reversed.toList(),
               ),

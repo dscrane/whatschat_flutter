@@ -8,7 +8,7 @@ import 'package:whats_chat/services/networking.dart';
 
 // ignore: prefer_mixin
 class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
-  bool _authenticated = true;
+  bool _authenticated = false;
   late User _user;
   late Socket _socket;
   List<Room>? _rooms;

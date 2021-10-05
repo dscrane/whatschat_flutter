@@ -9,7 +9,6 @@ import 'package:whats_chat/screens/profile_screen/profile_screen.dart';
 import 'package:whats_chat/screens/registration_screen/registration_screen.dart';
 import 'package:whats_chat/screens/settings_screen/settings_screen.dart';
 import 'package:whats_chat/screens/welcome_screen/welcome_screen.dart';
-import 'package:whats_chat/utils/log.dart';
 
 void main() {
   runApp(MultiProvider(

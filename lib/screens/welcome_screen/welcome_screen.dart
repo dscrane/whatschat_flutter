@@ -1,6 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/providers/session_provider.dart';
+import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
 import 'package:whats_chat/screens/login_screen/login_screen.dart';
 import 'package:whats_chat/screens/registration_screen/registration_screen.dart';
 import 'package:whats_chat/widgets/hero_logo.dart';
@@ -16,6 +19,7 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
+    print('isAuthed: ${context.watch<SessionProvider>().authenticated}');
     return Scaffold(
       backgroundColor: kBackground,
       body: Center(
@@ -43,6 +47,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 title: 'Log In',
                 color: kPrimary,
                 handlePress: () {
+                  if (context.read<SessionProvider>().authenticated) {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      ChatListScreen.id,
+                      ModalRoute.withName(WelcomeScreen.id),
+                    );
+                    return;
+                  }
                   Navigator.pushNamed(context, LoginScreen.id);
                 },
               ),

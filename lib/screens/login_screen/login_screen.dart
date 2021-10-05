@@ -26,7 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void handleLogin() async {
     await context.read<SessionProvider>().handleUserLogin('sampleuser', 'examplepass000');
     if (context.read<SessionProvider>().authenticated) {
-      context.read<SessionProvider>().socket = SocketController.socket;
       Navigator.pop(context);
       Navigator.pushNamed(context, ChatListScreen.id);
     } else {

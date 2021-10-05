@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:whats_chat/providers/session_provider.dart';
 import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/utils/exceptions.dart';
 import 'package:whats_chat/services/socket.dart';
 import 'package:whats_chat/utils/icons.dart';
 import 'package:whats_chat/widgets/app_scaffold.dart';
@@ -18,6 +19,7 @@ class ChatListScreen extends StatefulWidget {
 class _ChatListScreenState extends State<ChatListScreen> {
   @override
   void initState() {
+    context.read<SessionProvider>().socket = SocketController.socket;
     connectToServer();
     super.initState();
   }
@@ -29,25 +31,32 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
   void connectToServer() {
     SessionProvider sessionReader = context.read<SessionProvider>();
-    try {
-      Socket socket = sessionReader.socket;
-      socket.connect();
-      socket.onConnect((_) {
-        if (sessionReader.rooms != null) {
-          return;
+
+    Socket socket = sessionReader.socket;
+    socket.connect();
+    socket.onConnect((_) {
+      if (sessionReader.rooms != null) {
+        return;
+      }
+      SocketController.initialData(sessionReader.user.id);
+    });
+    socket.on('initial-data', (data) => sessionReader.updateRooms(data));
+    socket.on('fetch-messages', (data) => SocketController.fetchMessages(data));
+    socket.on(
+      'fetched-messages',
+      (data) => sessionReader.populateMessages(data[1]),
+    );
+    socket.on('return-message', (data) => sessionReader.displayNewMessage(data[1]));
+    socket.on('error', (data) {
+      try {
+        throw SocketException(data);
+      } on SocketException catch (e) {
+        if (e.name == 'UserQueryError') {
+          print(e.message);
+          Navigator.pop(context);
         }
-        SocketController.initialData(sessionReader.user.id);
-      });
-      socket.on('initial-data', (data) => sessionReader.updateRooms(data));
-      socket.on('fetch-messages', (data) => SocketController.fetchMessages(data));
-      socket.on(
-        'fetched-messages',
-        (data) => sessionReader.populateMessages(data[1]),
-      );
-      socket.on('return-message', (data) => sessionReader.displayNewMessage(data[1]));
-    } catch (e) {
-      //
-    }
+      }
+    });
   }
 
   @override

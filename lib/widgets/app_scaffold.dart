@@ -5,7 +5,7 @@ import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
 import 'package:whats_chat/screens/profile_screen/profile_screen.dart';
 import 'package:whats_chat/screens/settings_screen/settings_screen.dart';
 
-class AppScaffold extends StatelessWidget {
+class AppScaffold extends StatefulWidget {
   const AppScaffold(
     this._selectedIndex, {
     required this.title,
@@ -19,26 +19,61 @@ class AppScaffold extends StatelessWidget {
   final Widget? floatingActionButton;
 
   @override
+  State<AppScaffold> createState() => _AppScaffoldState();
+}
+
+class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStateMixin {
+  bool animateTextField = false;
+  Icon actionIcon = kIconsSearch;
+  late Animation<double> animation;
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    _controller = AnimationController(duration: const Duration(milliseconds: 100), vsync: this);
+    animation = Tween<double>(begin: 0.0, end: 290.0).animate(_controller)
+      ..addListener(() {
+        setState(() {});
+      });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final hasBottomNavigation =
-        title == ProfileScreen.id || title == ChatListScreen.id || title == SettingsScreen.id;
-    print(hasBottomNavigation);
+    if (animateTextField) {
+      _controller.forward();
+    } else if (!animateTextField) {
+      _controller.reverse();
+    }
     return Scaffold(
       backgroundColor: kBackground,
       appBar: AppBar(
         backgroundColor: kPrimary,
-        title: Text(title),
+        title: Text(widget.title),
         actions: <Widget>[
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+            width: animation.value,
+            child: Center(
+              child: TextField(
+                decoration: kSearchTextFieldDecoration,
+                maxLines: null,
+              ),
+            ),
+          ),
           IconButton(
-            icon: kIconsSearch,
+            icon: actionIcon,
             onPressed: () {
-              // TODO: add slide in animation for the textField
+              setState(() {
+                animateTextField = !animateTextField;
+                actionIcon = animateTextField ? kIconsClose : kIconsSearch;
+              });
             },
-          )
+          ),
         ],
       ),
-      body: body,
-      bottomNavigationBar: BottomNavigation(selectedIndex: _selectedIndex),
+      body: widget.body,
+      bottomNavigationBar: BottomNavigation(selectedIndex: widget._selectedIndex),
     );
   }
 }
@@ -54,7 +89,6 @@ class BottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(_selectedIndex);
     if (_selectedIndex > 3) {
       return SizedBox(
         height: 0.0,
