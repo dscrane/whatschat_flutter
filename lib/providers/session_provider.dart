@@ -31,8 +31,8 @@ class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
 
   Future handleUserLogin(username, password) async {
     try {
-      Map<String, dynamic> loginUser = await NetworkHelper.loginUser(username, password);
-      this.user = User.fromJsoN(loginUser);
+      Map<String, dynamic> response = await NetworkHelper.loginUser(username, password);
+      this.user = User.fromJsoN(response['user'], response['token']);
       this.authenticated = true;
       notifyListeners();
     } catch (e) {

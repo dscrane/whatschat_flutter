@@ -29,11 +29,16 @@ const kTextDark = Color(0xFF000000);
 
 // Stylistic constants
 const kSearchTextFieldDecoration = InputDecoration(
-  contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+  hintStyle: TextStyle(
+    color: kTextLightFaded,
+    fontSize: 18,
+  ),
+  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
   hintText: 'Search...',
-  border: InputBorder.none,
-  filled: true,
-  fillColor: kTextLightFaded,
+  focusedBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: kPrimaryAccent, width: 1.0),
+    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+  ),
 );
 
 const kSendButtonStyle = TextStyle(

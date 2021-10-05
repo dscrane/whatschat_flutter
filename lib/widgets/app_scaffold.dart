@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/providers/session_provider.dart';
+import 'package:whats_chat/services/networking.dart';
 import 'package:whats_chat/utils/icons.dart';
 import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
 import 'package:whats_chat/screens/profile_screen/profile_screen.dart';
@@ -25,8 +28,12 @@ class AppScaffold extends StatefulWidget {
 class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStateMixin {
   bool animateTextField = false;
   Icon actionIcon = kIconsSearch;
+  late FocusNode _focusNode;
   late Animation<double> animation;
   late AnimationController _controller;
+  TextEditingController _searchController = TextEditingController();
+  String searchText = '';
+  List<dynamic>? searchResults;
 
   @override
   void initState() {
@@ -36,28 +43,74 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
         setState(() {});
       });
     super.initState();
+    _focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void handleChange(value) async {
+    if (value == '') {
+      return;
+    }
+    List<dynamic> response =
+        await NetworkHelper.queryForUsers(value, context.read<SessionProvider>().user.token);
+    print(response.runtimeType);
+    setState(() {
+      searchResults = response;
+      searchText = value;
+    });
+  }
+
+  createSearchDisplay() {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(0.0),
+      child: Container(
+        child: Column(
+          children: searchResults!.map<Widget>((el) {
+            return ListTile(
+              title: Text(el['name']),
+            );
+          }).toList(),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     if (animateTextField) {
       _controller.forward();
+      _focusNode.requestFocus();
     } else if (!animateTextField) {
       _controller.reverse();
+      _searchController.clear();
     }
+    print(searchResults);
     return Scaffold(
       backgroundColor: kBackground,
       appBar: AppBar(
         backgroundColor: kPrimary,
         title: Text(widget.title),
         actions: <Widget>[
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
-            width: animation.value,
-            child: Center(
+          Center(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+              width: animation.value,
               child: TextField(
+                onChanged: (value) {
+                  handleChange(value);
+                },
+                controller: _searchController,
+                focusNode: _focusNode,
+                enabled: animateTextField,
                 decoration: kSearchTextFieldDecoration,
-                maxLines: null,
+                showCursor: false,
+                maxLines: 1,
               ),
             ),
           ),
@@ -71,6 +124,7 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
             },
           ),
         ],
+        // bottom: searchResults != null && animateTextField ? createSearchDisplay() : null,
       ),
       body: widget.body,
       bottomNavigationBar: BottomNavigation(selectedIndex: widget._selectedIndex),
@@ -96,11 +150,13 @@ class BottomNavigation extends StatelessWidget {
     }
     void _onItemTapped(int index) {
       if (index == 0) {
-        Navigator.pushNamed(context, ProfileScreen.id);
+        Navigator.pushNamedAndRemoveUntil(
+            context, ProfileScreen.id, ModalRoute.withName(ChatListScreen.id));
       } else if (index == 1) {
         Navigator.pushNamed(context, ChatListScreen.id);
       } else if (index == 2) {
-        Navigator.pushNamed(context, SettingsScreen.id);
+        Navigator.pushNamedAndRemoveUntil(
+            context, SettingsScreen.id, ModalRoute.withName(ChatListScreen.id));
       }
     }
 

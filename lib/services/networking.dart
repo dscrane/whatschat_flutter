@@ -19,7 +19,8 @@ class NetworkHelper {
         headers: {HttpHeaders.authorizationHeader: testToken},
       );
       // if successful response return User object from response body
-      return json.decode(response.body)["user"];
+
+      return json.decode(response.body);
     } catch (e) {
       // TODO: add error codes to server code
       // TODO: handle errors from server
@@ -35,9 +36,26 @@ class NetworkHelper {
           headers: {"Authorization": 'Bearer $testToken'});
       print(response.statusCode);
       print(response.body);
+      return json.decode(response.body);
     } catch (e) {
       // TODO: handle errors from server
       print(e);
+    }
+  }
+
+  static Future queryForUsers(name, token) async {
+    Map<String, String> requestMap = {"name": name};
+    String encodedData = json.encode(requestMap);
+    try {
+      Response response = await post(
+        Uri.parse('http://192.168.1.32:5500/users'),
+        body: encodedData,
+        headers: {"Authorization": 'Bearer $token'},
+      );
+      return jsonDecode(response.body);
+    } catch (e) {
+      print(e);
+      // TODO: handle error from server
     }
   }
 
