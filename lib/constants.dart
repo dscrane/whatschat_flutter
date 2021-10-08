@@ -22,9 +22,13 @@ const kPrimaryDeep = Color(0xff2e094c);
 const kSecondaryDeep = Color(0xff095458);
 const kPrimaryAccent = Color(0xffd500f9);
 const kSecondaryAccent = Color(0xff00e5ff);
+const kMessageSent = Color(0xff127b8a);
+const kMessageReceived = Color(0xff692a9b);
+const kWarning = Color(0xffea7070);
 
 const kTextLightFaded = Color(0xFF9793A4);
 const kTextLight = Color(0xFFFFFFFF);
+const kTextDarkFaded = Color(0xFF4E4D56);
 const kTextDark = Color(0xFF000000);
 
 // Stylistic constants
@@ -76,77 +80,72 @@ const kRegistrationTitleStyle = TextStyle(
 );
 
 const kTextFieldDecoration = InputDecoration(
-    hintStyle: TextStyle(
-      color: kTextLightFaded,
-    ),
-    contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(32.0)),
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: kPrimaryDark, width: 1.5),
-      borderRadius: BorderRadius.all(Radius.circular(32.0)),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: kPrimaryAccent, width: 2.0),
-      borderRadius: BorderRadius.all(Radius.circular(32.0)),
-    ));
+  hintStyle: TextStyle(
+    color: kTextLightFaded,
+  ),
+  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: kPrimaryDark, width: 1.5),
+    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: kPrimaryAccent, width: 2.0),
+    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+  ),
+);
 
 const kRegistrationTextFieldDecoration = InputDecoration(
-    hintStyle: TextStyle(
-      color: kTextLightFaded,
-    ),
-    contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(32.0)),
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: kSecondaryDark, width: 1.5),
-      borderRadius: BorderRadius.all(Radius.circular(32.0)),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: kSecondaryAccent, width: 2.0),
-      borderRadius: BorderRadius.all(Radius.circular(32.0)),
-    ));
-
-const kMessageTimestampStyle = TextStyle(
-  color: kTextLightFaded,
-  fontSize: 9.0,
+  hintStyle: TextStyle(
+    color: kTextLightFaded,
+  ),
+  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: kSecondaryDark, width: 1.5),
+    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: kSecondaryAccent, width: 2.0),
+    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+  ),
 );
+
+const kMessageTimestampStyle =
+    TextStyle(color: kTextDark, fontSize: 9.0, fontWeight: FontWeight.w600);
 
 const Map<String, dynamic> kSentMessageStyle = {
   'alignment': CrossAxisAlignment.end,
-  'background': kSecondaryDark,
+  'color': kMessageSent,
   'border': BorderRadius.only(
-    topLeft: Radius.circular(10.0),
+    topLeft: Radius.circular(15.0),
     topRight: Radius.circular(0.0),
-    bottomLeft: Radius.circular(10.0),
-    bottomRight: Radius.circular(10.0),
-  ),
-  'text': TextStyle(
-    color: kTextLight,
-    fontFamily: 'Source-Sans',
-    fontWeight: FontWeight.w500,
-    fontSize: 15.0,
+    bottomLeft: Radius.circular(15.0),
+    bottomRight: Radius.circular(15.0),
   ),
 };
 
 const Map<String, dynamic> kReceivedMessageStyle = {
   'alignment': CrossAxisAlignment.start,
-  'background': kPrimaryDark,
+  'color': kMessageReceived,
   'border': BorderRadius.only(
     topLeft: Radius.circular(0.0),
-    topRight: Radius.circular(10.0),
-    bottomLeft: Radius.circular(10.0),
-    bottomRight: Radius.circular(10.0),
-  ),
-  'text': TextStyle(
-    color: kTextLight,
-    fontFamily: 'Source-Sans',
-    fontWeight: FontWeight.w500,
-    fontSize: 15.0,
+    topRight: Radius.circular(15.0),
+    bottomLeft: Radius.circular(15.0),
+    bottomRight: Radius.circular(15.0),
   ),
 };
+
+const TextStyle kMessageTextStyle = TextStyle(
+  color: kTextLight,
+  fontFamily: 'Source-Sans',
+  fontWeight: FontWeight.w500,
+  fontSize: 15.0,
+);
 
 // Functional constants
 
@@ -170,25 +169,3 @@ const CircleAvatar kUsersAvatar = CircleAvatar(
   backgroundColor: kTextLight,
   radius: 20.0,
 );
-
-// Data constants
-const DummyMessages = {
-  "Buddies": [
-    {"author": "user1", "message": "Message 1"},
-    {"author": "user2", "message": "Message 2"},
-    {"author": "user1", "message": "Message 3"},
-    {"author": "user2", "message": "Message 4"},
-  ],
-  "soccer": [
-    {"author": "user1", "message": "Soccer 1"},
-    {"author": "user2", "message": "Soccer 2"},
-    {"author": "user1", "message": "Soccer 3"},
-    {"author": "user2", "message": "Soccer 4"},
-  ],
-  "welcome room": [
-    {"author": "user1", "message": "Welcome 1"},
-    {"author": "user2", "message": "Welcome 2"},
-    {"author": "user1", "message": "Welcome 3"},
-    {"author": "user2", "message": "Welcome 4"},
-  ],
-};

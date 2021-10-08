@@ -1,10 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whats_chat/constants.dart';
 import 'package:whats_chat/providers/session_provider.dart';
 import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
-import 'package:whats_chat/screens/chat_screen/widgets/rounded_button.dart';
-import 'package:whats_chat/services/socket.dart';
+import 'package:whats_chat/widgets/rounded_button.dart';
 import 'package:whats_chat/widgets/authentication_text_field.dart';
 import 'package:whats_chat/widgets/hero_logo.dart';
 
@@ -24,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void updatePassword(enteredPassword) => password = enteredPassword;
 
   void handleLogin() async {
+    inspect(context.read<SessionProvider>());
     await context.read<SessionProvider>().handleUserLogin('sampleuser', 'examplepass000');
     if (context.read<SessionProvider>().authenticated) {
       Navigator.pop(context);

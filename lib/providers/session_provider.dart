@@ -5,12 +5,13 @@ import 'package:whats_chat/models/message.dart';
 import 'package:whats_chat/models/room.dart';
 import 'package:whats_chat/models/user.dart';
 import 'package:whats_chat/services/networking.dart';
+import 'package:whats_chat/services/socket.dart';
 
 // ignore: prefer_mixin
 class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
   bool _authenticated = false;
   late User _user;
-  late Socket _socket;
+  late SocketController _socketController;
   List<Room>? _rooms;
   late Room _currentRoom;
 
@@ -26,8 +27,8 @@ class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
   Room get currentRoom => _currentRoom;
   void set currentRoom(room) => _currentRoom = room;
 
-  Socket get socket => _socket;
-  void set socket(socket) => _socket = socket;
+  SocketController get socketController => _socketController;
+  void set socketController(socket) => _socketController = socket;
 
   Future handleUserLogin(username, password) async {
     try {
@@ -73,6 +74,14 @@ class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
     this.user = loginUser;
     this.authenticated = true;
     notifyListeners();
+  }
+
+  void reset() {
+    this.authenticated = false;
+    this.user = null;
+    this.rooms = null;
+    this.currentRoom = null;
+    this.socketController = null;
   }
 
   @override

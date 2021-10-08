@@ -59,6 +59,21 @@ class NetworkHelper {
     }
   }
 
+  static Future logoutUser(token) async {
+    try {
+      Response response = await post(
+        Uri.parse('http://192.168.1.32:5500/logout'),
+        body: null,
+        headers: {"Authorization": 'Bearer $token'},
+      );
+      return jsonDecode(response.body)["logout"];
+      // TODO remove the token from share_preferences on logout
+
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future getMessages(chatId) async {
     // return list of messages for currently selected chat room
   }

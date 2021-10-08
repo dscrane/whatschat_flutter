@@ -4,6 +4,23 @@ import 'package:provider/provider.dart';
 import 'package:whats_chat/models/message.dart';
 import 'package:whats_chat/providers/session_provider.dart';
 
+Size _textSize(String text, TextStyle style) {
+  final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: style), maxLines: 1, textDirection: TextDirection.ltr)
+    ..layout(minWidth: 0, maxWidth: double.infinity);
+  return textPainter.size;
+}
+
+String _formatTimeStamp(DateTime timestamp) {
+  String timestampMinute =
+      timestamp.minute < 10 ? '0${timestamp.minute}' : timestamp.minute.toString();
+  if (timestamp.hour > 11) {
+    return '${timestamp.hour % 12}:${timestampMinute} PM';
+  } else {
+    return '${timestamp.hour}:${timestampMinute} AM';
+  }
+}
+
 class MessageBubble extends StatelessWidget {
   const MessageBubble({required Key key, required Message message})
       : this.message = message,
@@ -13,46 +30,59 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isCurrentUser = message.author == context.read<SessionProvider>().user.username;
-    final timestampString = message.timestamp.hour > 11
-        ? '${message.timestamp.hour % 12}:${message.timestamp.minute} PM'
-        : '${message.timestamp.hour}:${message.timestamp.minute} AM';
-    final border = isCurrentUser ? kSentMessageStyle['border'] : kReceivedMessageStyle['border'];
-    final background =
-        isCurrentUser ? kSentMessageStyle['background'] : kReceivedMessageStyle['background'];
-    final alignment =
-        isCurrentUser ? kSentMessageStyle['alignment'] : kReceivedMessageStyle['alignment'];
-    final text = isCurrentUser ? kSentMessageStyle['text'] : kReceivedMessageStyle['text'];
+    final timestamp = _formatTimeStamp(message.timestamp);
+    final textSize = _textSize(message.message, kMessageTextStyle);
 
     return Padding(
-      padding: EdgeInsets.all(10.0),
+      padding: EdgeInsets.all(8.0),
       child: Column(
-        crossAxisAlignment: alignment,
+        crossAxisAlignment:
+            isCurrentUser ? kSentMessageStyle['alignment'] : kReceivedMessageStyle['alignment'],
         children: <Widget>[
-          Text(
-            message.author,
-            style: TextStyle(
-              fontSize: 12.0,
-              color: kTextLightFaded,
-            ),
-          ),
           Material(
             elevation: 5.0,
-            borderRadius: border,
-            color: background,
-            child: Padding(
-              padding: EdgeInsets.only(top: 5.0, left: 8.0, right: 8.0, bottom: 5.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    message.message,
-                    style: text,
-                  ),
-                  Text(
-                    timestampString,
-                    style: kMessageTimestampStyle,
-                  )
-                ],
+            borderRadius:
+                isCurrentUser ? kSentMessageStyle['border'] : kReceivedMessageStyle['border'],
+            color: isCurrentUser ? kSentMessageStyle['color'] : kReceivedMessageStyle['color'],
+            child: Container(
+              width: textSize.width * 1.3,
+              constraints: BoxConstraints(
+                  minWidth: MediaQuery.of(context).size.width * 0.3,
+                  maxWidth: MediaQuery.of(context).size.width * 0.5),
+              child: Padding(
+                padding: EdgeInsets.only(top: 5.0, left: 10.0, right: 10.0, bottom: 5.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FractionallySizedBox(
+                      widthFactor: 1.0,
+                      child: Text(
+                        message.author,
+                        // textAlign: ,
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: kTextLightFaded,
+                        ),
+                      ),
+                    ),
+                    FractionallySizedBox(
+                      widthFactor: 1.0,
+                      child: Text(
+                        message.message,
+                        textAlign: TextAlign.start,
+                        style: kMessageTextStyle,
+                      ),
+                    ),
+                    FractionallySizedBox(
+                      widthFactor: 1.0,
+                      child: Text(
+                        timestamp,
+                        textAlign: TextAlign.end,
+                        style: kMessageTimestampStyle,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

@@ -27,7 +27,7 @@ class _ChatScreenState extends State<ChatScreen> {
       'author': context.read<SessionProvider>().user.username,
     };
 
-    SocketController.sendMessage(newMessageData);
+    context.read<SessionProvider>().socketController.sendMessage(newMessageData);
   }
 
   void populateMessageList() {}
@@ -37,8 +37,12 @@ class _ChatScreenState extends State<ChatScreen> {
     Room currentRoom = context.watch<SessionProvider>().currentRoom;
     List<Message> messages = context.watch<SessionProvider>().currentRoom.messages;
 
-    List<MessageBubble> messageBubbles =
-        messages.map((message) => MessageBubble(key: Key(message.id), message: message)).toList();
+    List<MessageBubble> messageBubbles = messages
+        .map((message) => MessageBubble(
+              key: Key(message.id),
+              message: message,
+            ))
+        .toList();
     // TODO: Create chat screen display
 
     return AppScaffold(

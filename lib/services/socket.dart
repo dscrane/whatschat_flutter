@@ -1,23 +1,37 @@
 import 'package:socket_io_client/socket_io_client.dart';
+import 'package:socket_io_client/src/manager.dart';
 import 'package:whats_chat/utils/log.dart';
+import 'dart:developer';
 
 class SocketController {
-  static Socket _socket = io('http://192.168.1.32:5500',
-      OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
+  late Socket _socket;
+  SocketController({userId, username, token})
+      : this._socket = io(
+          'http://192.168.1.32:5500',
+          OptionBuilder()
+              .setTransports(['websocket'])
+              .setQuery({"username": username, "userId": userId, "token": token})
+              .disableAutoConnect()
+              .build(),
+        );
 
-  static get socket => _socket;
+  Socket get socket => _socket;
 
-  static void initialData(userId) {
-    Log.emit(['initial-data', userId]);
+  void initializeSession() {
+    socket.connect();
+  }
+
+  void initialData() {
+    Log.emit(['initial-data', null]);
 
     _socket.emitWithAck(
       'fetch-initial-data',
-      userId,
+      null,
       ack: (data) => Log.ack(data),
     );
   }
 
-  static void createRoom(roomName, userName) {
+  void createRoom(roomName, userName) {
     Log.emit(['create-room', roomName]);
 
     _socket.emitWithAck(
@@ -27,7 +41,7 @@ class SocketController {
     );
   }
 
-  static void joinRoom(String roomName, String userName) {
+  void joinRoom(String roomName, String userName) {
     Log.emit(['join-room', roomName]);
 
     _socket.emitWithAck(
@@ -37,7 +51,7 @@ class SocketController {
     );
   }
 
-  static void rejoinRoom(newChatroomName, oldChatroomName, userName) {
+  void rejoinRoom(newChatroomName, oldChatroomName, userName) {
     _socket.emitWithAck(
         "rejoin-chatroom",
         [
@@ -48,22 +62,22 @@ class SocketController {
         ack: (data) => Log.ack(data));
   }
 
-  static void fetchMessages(room) {
+  void fetchMessages(room) {
     Log.emit(['fetching-messages', room]);
 
     _socket.emitWithAck("fetching-messages", room, ack: (data) => Log.ack(data));
   }
 
-  static void sendMessage(messageData) {
+  void sendMessage(messageData) {
     Log.emit(['new-messages', messageData]);
 
     _socket.emitWithAck("new-message", messageData, ack: (data) => Log.ack(data));
   }
 
-  static void leaveRoom() {
+  void leaveRoom() {
     // _socket.emitWithAck("leave-chatroom", chatroomName, userName, ack: (data) => Log.ack(data));
   }
-  static void deleteRoom() {
+  void deleteRoom() {
     // _socket.emitWithAck("delete-chatroom", chatroomName, ack: (data) => Log.ack(data));
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -19,7 +20,12 @@ class ChatListScreen extends StatefulWidget {
 class _ChatListScreenState extends State<ChatListScreen> {
   @override
   void initState() {
-    context.read<SessionProvider>().socket = SocketController.socket;
+    context.read<SessionProvider>().socketController = SocketController(
+      userId: context.read<SessionProvider>().user.id,
+      username: context.read<SessionProvider>().user.username,
+      token: context.read<SessionProvider>().user.token,
+    );
+
     connectToServer();
     super.initState();
   }
@@ -31,17 +37,17 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
   void connectToServer() {
     SessionProvider sessionReader = context.read<SessionProvider>();
-
-    Socket socket = sessionReader.socket;
-    socket.connect();
+    SocketController socketController = sessionReader.socketController;
+    Socket socket = socketController.socket;
+    socketController.initializeSession();
     socket.onConnect((_) {
       if (sessionReader.rooms != null) {
         return;
       }
-      SocketController.initialData(sessionReader.user.id);
+      socketController.initialData();
     });
     socket.on('initial-data', (data) => sessionReader.updateRooms(data));
-    socket.on('fetch-messages', (data) => SocketController.fetchMessages(data));
+    socket.on('fetch-messages', (data) => socketController.fetchMessages(data));
     socket.on(
       'fetched-messages',
       (data) => sessionReader.populateMessages(data[1]),
@@ -54,6 +60,8 @@ class _ChatListScreenState extends State<ChatListScreen> {
         if (e.name == 'UserQueryError') {
           print(e.message);
           Navigator.pop(context);
+        } else {
+          print(e);
         }
       }
     });

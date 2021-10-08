@@ -90,7 +90,6 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
       _controller.reverse();
       _searchController.clear();
     }
-    print(searchResults);
     return Scaffold(
       backgroundColor: kBackground,
       appBar: AppBar(

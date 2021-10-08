@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 import 'package:whats_chat/constants.dart';
 import 'package:whats_chat/providers/session_provider.dart';
 import 'package:whats_chat/models/user.dart';
+import 'package:whats_chat/services/networking.dart';
 import 'package:whats_chat/widgets/app_scaffold.dart';
+import 'package:whats_chat/widgets/rounded_button.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const id = "profile_screen";
@@ -17,9 +20,15 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  @override
-  dispose() {
-    super.dispose();
+  void handleLogout() async {
+    print('attempting logout');
+    var logoutSuccess = await NetworkHelper.logoutUser(context.read<SessionProvider>().user.token);
+    print(logoutSuccess);
+    if (logoutSuccess) {
+      context.read<SessionProvider>().socketController.socket.disconnect();
+      // context.read<SessionProvider>().reset();
+      Phoenix.rebirth(context);
+    }
   }
 
   @override
@@ -51,6 +60,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             kBoxSm,
             ProfileCard(type: 'name', value: 'ROOMS HERE'),
             kBoxSm,
+            RoundedButton(
+              handlePress: handleLogout,
+              title: "Log Out",
+              color: kWarning,
+            )
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 import 'package:whats_chat/constants.dart';
 import 'package:whats_chat/providers/session_provider.dart';
@@ -11,12 +12,16 @@ import 'package:whats_chat/screens/settings_screen/settings_screen.dart';
 import 'package:whats_chat/screens/welcome_screen/welcome_screen.dart';
 
 void main() {
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => SessionProvider()),
-    ],
-    child: MyApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SessionProvider()),
+      ],
+      child: Phoenix(
+        child: MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
