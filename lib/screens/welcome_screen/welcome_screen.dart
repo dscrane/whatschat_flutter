@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:whats_chat/constants.dart';
-import 'package:whats_chat/providers/session_provider.dart';
+import 'package:whats_chat/models/user.dart';
+import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
 import 'package:whats_chat/screens/login_screen/login_screen.dart';
 import 'package:whats_chat/screens/registration_screen/registration_screen.dart';
@@ -18,8 +22,16 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+// todo: check for authorized token in shared_preferences
+  //  if there is a token skip login screen
+  // if not hit login screen like normal
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   @override
   Widget build(BuildContext context) {
+    _prefs.then((SharedPreferences prefs) {
+      inspect(prefs);
+    });
     return Scaffold(
       backgroundColor: kBackground,
       body: Center(
@@ -47,7 +59,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 title: 'Log In',
                 color: kPrimary,
                 handlePress: () {
-                  if (context.read<SessionProvider>().authenticated) {
+                  if (context.read<SessionModel>().authenticated) {
+                    context.read<SessionModel>().prefs.then((SharedPreferences prefs) {
+                      String savedUser = prefs.getString('user') as String;
+                      context.read<SessionModel>().user =
+                          User.fromPreferences(json.decode(savedUser));
+                    });
                     Navigator.pushNamedAndRemoveUntil(
                       context,
                       ChatListScreen.id,

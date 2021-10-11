@@ -11,7 +11,7 @@ const kBoxLg = SizedBox(height: 32.0);
 const kBoxXl = SizedBox(height: 48.0);
 
 // Color scheme constants
-const kBackground = Color(0xff4e4b51);
+const kBackground = Color(0xff1A1B2F);
 const kPrimary = Color(0xff8741c1);
 const kSecondary = Color(0xff2ab2bf);
 const kPrimaryLight = Color(0xffba70f4);
@@ -22,7 +22,7 @@ const kPrimaryDeep = Color(0xff2e094c);
 const kSecondaryDeep = Color(0xff095458);
 const kPrimaryAccent = Color(0xffd500f9);
 const kSecondaryAccent = Color(0xff00e5ff);
-const kMessageSent = Color(0xff127b8a);
+const kMessageSent = Color(0xff0e6875);
 const kMessageReceived = Color(0xff692a9b);
 const kWarning = Color(0xffea7070);
 
@@ -131,7 +131,7 @@ const Map<String, dynamic> kSentMessageStyle = {
 
 const Map<String, dynamic> kReceivedMessageStyle = {
   'alignment': CrossAxisAlignment.start,
-  'color': kMessageReceived,
+  'color': kMessageSent,
   'border': BorderRadius.only(
     topLeft: Radius.circular(0.0),
     topRight: Radius.circular(15.0),

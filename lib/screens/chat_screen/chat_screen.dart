@@ -3,8 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:whats_chat/constants.dart';
 import 'package:whats_chat/models/message.dart';
 import 'package:whats_chat/models/room.dart';
-import 'package:whats_chat/providers/session_provider.dart';
-import 'package:whats_chat/services/socket.dart';
+import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/widgets/app_scaffold.dart';
 import 'package:whats_chat/widgets/message_bubble.dart';
 
@@ -22,20 +21,20 @@ class _ChatScreenState extends State<ChatScreen> {
   void sendNewMessage(BuildContext context) {
     Map<String, String> newMessageData = {
       'message': newMessageText,
-      'chatroomName': context.read<SessionProvider>().currentRoom.name,
-      'userId': context.read<SessionProvider>().user.id,
-      'author': context.read<SessionProvider>().user.username,
+      'chatroomName': context.read<SessionModel>().currentRoom.name,
+      'userId': context.read<SessionModel>().user.id,
+      'author': context.read<SessionModel>().user.username,
     };
 
-    context.read<SessionProvider>().socketController.sendMessage(newMessageData);
+    context.read<SessionModel>().socketController.sendMessage(newMessageData);
   }
 
   void populateMessageList() {}
 
   @override
   Widget build(BuildContext context) {
-    Room currentRoom = context.watch<SessionProvider>().currentRoom;
-    List<Message> messages = context.watch<SessionProvider>().currentRoom.messages;
+    Room currentRoom = context.watch<SessionModel>().currentRoom;
+    List<Message> messages = context.watch<SessionModel>().currentRoom.messages;
 
     List<MessageBubble> messageBubbles = messages
         .map((message) => MessageBubble(

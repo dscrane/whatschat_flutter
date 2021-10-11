@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
-  RoundedButton(
-      {required this.handlePress, required this.title, required this.color});
+  RoundedButton({required this.handlePress, required this.title, required this.color});
 
   final handlePress;
   final String title;
@@ -15,7 +14,7 @@ class RoundedButton extends StatelessWidget {
       child: Material(
         color: color,
         borderRadius: BorderRadius.circular(30.0),
-        elevation: 5.0,
+        elevation: 3.0,
         child: MaterialButton(
           onPressed: handlePress,
           minWidth: 200.0,

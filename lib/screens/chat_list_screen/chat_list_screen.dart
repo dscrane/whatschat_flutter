@@ -1,8 +1,12 @@
+import 'dart:async';
 import 'dart:developer';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart';
-import 'package:whats_chat/providers/session_provider.dart';
+import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/constants.dart';
 import 'package:whats_chat/utils/exceptions.dart';
 import 'package:whats_chat/services/socket.dart';
@@ -18,25 +22,36 @@ class ChatListScreen extends StatefulWidget {
 }
 
 class _ChatListScreenState extends State<ChatListScreen> {
+  bool _fetching = false;
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   @override
   void initState() {
-    context.read<SessionProvider>().socketController = SocketController(
-      userId: context.read<SessionProvider>().user.id,
-      username: context.read<SessionProvider>().user.username,
-      token: context.read<SessionProvider>().user.token,
+    enableLoadingIndicator();
+
+    context.read<SessionModel>().socketController = SocketController(
+      userId: context.read<SessionModel>().user.id,
+      username: context.read<SessionModel>().user.username,
+      token: context.read<SessionModel>().user.token,
     );
 
     connectToServer();
     super.initState();
   }
 
-  @override
-  dispose() {
-    super.dispose();
+  void enableLoadingIndicator() {
+    setState(() {
+      _fetching = true;
+    });
   }
+  //
+  // @override
+  // dispose() {
+  //   super.dispose();
+  // }
 
   void connectToServer() {
-    SessionProvider sessionReader = context.read<SessionProvider>();
+    SessionModel sessionReader = context.read<SessionModel>();
     SocketController socketController = sessionReader.socketController;
     Socket socket = socketController.socket;
     socketController.initializeSession();
@@ -69,25 +84,39 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (context.watch<SessionModel>().rooms?.length != null) {
+      setState(() {
+        _fetching = false;
+      });
+    }
     return AppScaffold(
       ChatListScreen.navigationIndex,
       title: 'Chats',
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.only(
-                  top: 15.0,
-                  left: 0.0,
-                  right: 0.0,
-                  bottom: 0.0,
+        child: ModalProgressHUD(
+          inAsyncCall: _fetching,
+          progressIndicator: CircularProgressIndicator(
+            color: kPrimaryAccent,
+            backgroundColor: Colors.white,
+            semanticsLabel: 'Fetching chats...',
+          ),
+          // opacity: 0.5,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(
+                    top: 15.0,
+                    left: 0.0,
+                    right: 0.0,
+                    bottom: 0.0,
+                  ),
+                  child: ChatListView(context.watch<SessionModel>().rooms ?? []),
                 ),
-                child: ChatListView(context.watch<SessionProvider>().rooms ?? []),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

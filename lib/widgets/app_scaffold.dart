@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:whats_chat/constants.dart';
-import 'package:whats_chat/providers/session_provider.dart';
+import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/services/networking.dart';
 import 'package:whats_chat/utils/icons.dart';
 import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
@@ -58,7 +58,7 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
       return;
     }
     List<dynamic> response =
-        await NetworkHelper.queryForUsers(value, context.read<SessionProvider>().user.token);
+        await NetworkHelper.queryForUsers(value, context.read<SessionModel>().user.token);
     print(response.runtimeType);
     setState(() {
       searchResults = response;

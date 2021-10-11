@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:socket_io_client/socket_io_client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whats_chat/models/message.dart';
 import 'package:whats_chat/models/room.dart';
 import 'package:whats_chat/models/user.dart';
@@ -8,12 +8,15 @@ import 'package:whats_chat/services/networking.dart';
 import 'package:whats_chat/services/socket.dart';
 
 // ignore: prefer_mixin
-class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
+class SessionModel with ChangeNotifier, DiagnosticableTreeMixin {
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   bool _authenticated = false;
   late User _user;
   late SocketController _socketController;
   List<Room>? _rooms;
   late Room _currentRoom;
+
+  Future<SharedPreferences> get prefs => _prefs;
 
   User get user => _user;
   void set user(user) => _user = user;
@@ -33,7 +36,7 @@ class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
   Future handleUserLogin(username, password) async {
     try {
       Map<String, dynamic> response = await NetworkHelper.loginUser(username, password);
-      this.user = User.fromJsoN(response['user'], response['token']);
+      this.user = User.fromJson(response['user'], response['token']);
       this.authenticated = true;
       notifyListeners();
     } catch (e) {
@@ -78,10 +81,10 @@ class SessionProvider with ChangeNotifier, DiagnosticableTreeMixin {
 
   void reset() {
     this.authenticated = false;
-    this.user = null;
-    this.rooms = null;
-    this.currentRoom = null;
-    this.socketController = null;
+    this.user = User;
+    this.rooms = [];
+    this.currentRoom = Room;
+    this.socketController = SocketController;
   }
 
   @override

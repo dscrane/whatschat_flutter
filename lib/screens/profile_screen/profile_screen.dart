@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whats_chat/constants.dart';
-import 'package:whats_chat/providers/session_provider.dart';
+import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/models/user.dart';
+import 'package:whats_chat/screens/welcome_screen/welcome_screen.dart';
 import 'package:whats_chat/services/networking.dart';
 import 'package:whats_chat/widgets/app_scaffold.dart';
 import 'package:whats_chat/widgets/rounded_button.dart';
@@ -22,18 +25,27 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   void handleLogout() async {
     print('attempting logout');
-    var logoutSuccess = await NetworkHelper.logoutUser(context.read<SessionProvider>().user.token);
+    var logoutSuccess = await NetworkHelper.logoutUser(context.read<SessionModel>().user.token);
     print(logoutSuccess);
     if (logoutSuccess) {
-      context.read<SessionProvider>().socketController.socket.disconnect();
-      // context.read<SessionProvider>().reset();
-      Phoenix.rebirth(context);
+      // TODO: remove the value of 'token' in shared_preferences on logout
+      context.read<SessionModel>().prefs.then((SharedPreferences prefs) {
+        prefs.setBool('authenticated', false);
+      });
+      context.read<SessionModel>().socketController.socket.disconnect();
+      context.read<SessionModel>().prefs.then((SharedPreferences prefs) {
+        inspect(prefs);
+      });
+      context.read<SessionModel>().reset();
+      Navigator.pushNamedAndRemoveUntil(
+          context, WelcomeScreen.id, ModalRoute.withName(WelcomeScreen.id));
+      // Phoenix.rebirth(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    User currentUser = context.read<SessionProvider>().user;
+    User currentUser = context.read<SessionModel>().user;
 
     return AppScaffold(
       ProfileScreen.navigationIndex,

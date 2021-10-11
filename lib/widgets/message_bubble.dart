@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whats_chat/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:whats_chat/models/message.dart';
-import 'package:whats_chat/providers/session_provider.dart';
+import 'package:whats_chat/providers/session_model.dart';
 
 Size _textSize(String text, TextStyle style) {
   final TextPainter textPainter = TextPainter(
@@ -29,7 +29,7 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isCurrentUser = message.author == context.read<SessionProvider>().user.username;
+    final isCurrentUser = message.author == context.read<SessionModel>().user.username;
     final timestamp = _formatTimeStamp(message.timestamp);
     final textSize = _textSize(message.message, kMessageTextStyle);
 
@@ -40,10 +40,10 @@ class MessageBubble extends StatelessWidget {
             isCurrentUser ? kSentMessageStyle['alignment'] : kReceivedMessageStyle['alignment'],
         children: <Widget>[
           Material(
-            elevation: 5.0,
+            elevation: 0.0,
             borderRadius:
                 isCurrentUser ? kSentMessageStyle['border'] : kReceivedMessageStyle['border'],
-            color: isCurrentUser ? kSentMessageStyle['color'] : kReceivedMessageStyle['color'],
+            color: kMessageSent.withOpacity(isCurrentUser ? 1.0 : 0.2),
             child: Container(
               width: textSize.width * 1.3,
               constraints: BoxConstraints(
@@ -65,12 +65,15 @@ class MessageBubble extends StatelessWidget {
                         ),
                       ),
                     ),
-                    FractionallySizedBox(
-                      widthFactor: 1.0,
-                      child: Text(
-                        message.message,
-                        textAlign: TextAlign.start,
-                        style: kMessageTextStyle,
+                    Padding(
+                      padding: EdgeInsets.only(top: 2.5, left: 0.0, right: 0.0, bottom: 0.0),
+                      child: FractionallySizedBox(
+                        widthFactor: 1.0,
+                        child: Text(
+                          message.message,
+                          textAlign: TextAlign.start,
+                          style: kMessageTextStyle,
+                        ),
                       ),
                     ),
                     FractionallySizedBox(
