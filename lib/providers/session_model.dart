@@ -12,9 +12,6 @@ class SessionModel with ChangeNotifier, DiagnosticableTreeMixin {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   bool _authenticated = false;
   late User _user;
-  late SocketController _socketController;
-  List<Room>? _rooms;
-  late Room _currentRoom;
 
   Future<SharedPreferences> get prefs => _prefs;
 
@@ -24,47 +21,9 @@ class SessionModel with ChangeNotifier, DiagnosticableTreeMixin {
   bool get authenticated => _authenticated;
   void set authenticated(value) => _authenticated = value;
 
-  List<Room>? get rooms => _rooms;
-  void set rooms(rooms) => _rooms = rooms;
-
-  Room get currentRoom => _currentRoom;
-  void set currentRoom(room) => _currentRoom = room;
-
-  SocketController get socketController => _socketController;
-  void set socketController(socket) => _socketController = socket;
-
   void handleUserLogin(Map<String, dynamic> user, String token) {
     this.user = User.fromJson(user, token);
     this.authenticated = true;
-    notifyListeners();
-  }
-
-  void populateMessages(List<Message> messages) {
-    this.currentRoom.messages = messages;
-    notifyListeners();
-  }
-
-  void displayNewMessage(Message message) {
-    this.currentRoom.newMessage(message);
-    notifyListeners();
-  }
-
-  void updateRooms(List<Room> rooms) {
-    this.rooms = rooms;
-    notifyListeners();
-  }
-
-  void updateNewRoom(Room room) {
-    updateCurrentRoom(room);
-    List<Room>? roomListToUpdate = this.rooms;
-    roomListToUpdate!.add(room);
-
-    this.rooms = roomListToUpdate;
-    notifyListeners();
-  }
-
-  void updateCurrentRoom(Room room) {
-    this.currentRoom = room;
     notifyListeners();
   }
 
@@ -77,14 +36,14 @@ class SessionModel with ChangeNotifier, DiagnosticableTreeMixin {
   void reset() {
     this.authenticated = false;
     this.user = User;
-    this.rooms = [];
-    this.currentRoom = Room;
-    this.socketController = SocketController;
+    // this.rooms = [];
+    // this.currentRoom = Room;
+    // this.socketController = SocketController;
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(IterableProperty('rooms', _rooms));
+    // properties.add(IterableProperty('rooms', _rooms));
   }
 }

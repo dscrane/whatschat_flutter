@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:whats_chat/providers/chat_model.dart';
 import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/models/room.dart';
 import 'package:whats_chat/providers/session_model.dart';
@@ -19,9 +20,9 @@ class ChatListView extends StatelessWidget {
         return GestureDetector(
           onTap: () {
             print('chat_list_view on tap');
-            context.read<SessionModel>().currentRoom = rooms[index];
-            context.read<SessionModel>().socketController.joinRoomEmitter(
-                context.read<SessionModel>().currentRoom.name,
+            context.read<ChatsModel>().currentRoom = rooms[index];
+            context.read<ChatsModel>().socketController.joinRoomEmitter(
+                context.read<ChatsModel>().currentRoom.name,
                 context.read<SessionModel>().user.name);
             Navigator.pushNamed(context, ChatScreen.id);
           },

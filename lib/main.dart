@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:whats_chat/providers/chat_model.dart';
 import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/providers/settings_model.dart';
@@ -24,6 +25,7 @@ void main() {
       providers: [
         ChangeNotifierProvider<SessionModel>(create: (_) => SessionModel()),
         ChangeNotifierProvider<SettingsModel>(create: (_) => SettingsModel()),
+        ChangeNotifierProvider<ChatsModel>(create: (_) => ChatsModel()),
       ],
       child: Phoenix(
         child: MyApp(),

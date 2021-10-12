@@ -6,6 +6,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+import 'package:whats_chat/providers/chat_model.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/utils/exceptions.dart';
@@ -29,7 +30,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
   void initState() {
     enableLoadingIndicator();
 
-    context.read<SessionModel>().socketController = SocketController(
+    context.read<ChatsModel>().socketController = SocketController(
       userId: context.read<SessionModel>().user.id,
       username: context.read<SessionModel>().user.username,
       token: context.read<SessionModel>().user.token,
@@ -51,38 +52,36 @@ class _ChatListScreenState extends State<ChatListScreen> {
   // }
 
   void connectToServer() {
+    ChatsModel chatsReader = context.read<ChatsModel>();
     SessionModel sessionReader = context.read<SessionModel>();
-    SocketController socketController = sessionReader.socketController;
+    SocketController socketController = chatsReader.socketController;
     Socket socket = socketController.socket;
     socketController.initializeSessionEmitter();
     socket.onConnect((_) {
-      if (sessionReader.rooms != null) {
+      if (chatsReader.rooms != null) {
         return;
       }
       socketController.initialDataEmitter();
     });
     socket.on(
       'initial-data',
-      (data) => socketController.onInitialData(data, sessionReader),
+      (data) => socketController.onInitialData(data, sessionReader, chatsReader),
     );
     socket.on(
       'fetched-messages',
-      (data) => socketController.onFetchedMessaged(data[1], sessionReader),
+      (data) => socketController.onFetchedMessaged(data[1], chatsReader),
     );
     socket.on(
       'public-connection-created',
-      (data) => socketController.onPublicConnection(data, sessionReader),
+      (data) => socketController.onPublicConnection(data, sessionReader, chatsReader),
     );
     socket.on(
       'private-connection-created',
-      // (data) => socketController.onPrivateConnection(data, sessionReader),
-      (data) {
-        socketController.onPrivateConnection(data, sessionReader);
-      },
+      (data) => socketController.onPrivateConnection(data, sessionReader, chatsReader),
     );
     socket.on(
       'return-message',
-      (data) => socketController.onReturnMessage(data[1], sessionReader),
+      (data) => socketController.onReturnMessage(data[1], chatsReader),
     );
 
     socket.on(
@@ -105,7 +104,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (context.watch<SessionModel>().rooms?.length != null) {
+    if (context.watch<ChatsModel>().rooms?.length != null) {
       setState(() {
         _fetching = false;
       });
@@ -133,7 +132,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                     right: 0.0,
                     bottom: 0.0,
                   ),
-                  child: ChatListView(context.watch<SessionModel>().rooms ?? []),
+                  child: ChatListView(context.watch<ChatsModel>().rooms ?? []),
                 ),
               ),
             ],

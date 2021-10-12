@@ -1,7 +1,7 @@
 import 'package:socket_io_client/socket_io_client.dart';
-import 'package:socket_io_client/src/manager.dart';
 import 'package:whats_chat/models/message.dart';
 import 'package:whats_chat/models/room.dart';
+import 'package:whats_chat/providers/chat_model.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/utils/log.dart';
 import 'dart:developer';
@@ -35,7 +35,11 @@ class SocketController {
     );
   }
 
-  void onInitialData(List<Map<String, dynamic>> rooms, SessionModel sessionReader) {
+  void onInitialData(
+    List<dynamic> rooms,
+    SessionModel sessionReader,
+    ChatsModel chatReader,
+  ) {
     print(rooms.runtimeType);
     List<Room> roomList = rooms
         .map<Room>(
@@ -45,10 +49,13 @@ class SocketController {
           ),
         )
         .toList();
-    sessionReader.updateRooms(roomList);
+    chatReader.updateRooms(roomList);
   }
 
-  void createPublicConnectionEmitter(String roomName, String userName) {
+  void createPublicConnectionEmitter(
+    String roomName,
+    String userName,
+  ) {
     Log.emit(['create-room', roomName]);
 
     _socket.emitWithAck(
@@ -58,7 +65,11 @@ class SocketController {
     );
   }
 
-  void onPublicConnection(Map<String, dynamic> room, SessionModel sessionReader) {}
+  void onPublicConnection(
+    Map<String, dynamic> room,
+    SessionModel sessionReader,
+    ChatsModel chatReader,
+  ) {}
 
   void createPrivateConnectionEmitter(String userToFind) {
     Log.emit(['create-private-connection', userToFind]);
@@ -66,12 +77,19 @@ class SocketController {
     _socket.emitWithAck("create-private", userToFind, ack: (data) => Log.ack(data));
   }
 
-  void onPrivateConnection(Map<String, dynamic> room, SessionModel sessionReader) {
+  void onPrivateConnection(
+    Map<String, dynamic> room,
+    SessionModel sessionReader,
+    ChatsModel chatReader,
+  ) {
     Room newRoom = Room.fromSocket(room, currentUser: sessionReader.user.username);
-    sessionReader.updateNewRoom(newRoom);
+    chatReader.updateNewRoom(newRoom);
   }
 
-  void joinRoomEmitter(String roomName, String userName) {
+  void joinRoomEmitter(
+    String roomName,
+    String userName,
+  ) {
     Log.emit(['join-room', roomName]);
 
     _socket.emitWithAck(
@@ -83,7 +101,11 @@ class SocketController {
 
   void onJoinedRoom() {}
 
-  void rejoinRoomEmitter(String newChatroomName, String oldChatroomName, String userName) {
+  void rejoinRoomEmitter(
+    String newChatroomName,
+    String oldChatroomName,
+    String userName,
+  ) {
     _socket.emitWithAck(
         "rejoin-chatroom",
         [
@@ -100,21 +122,29 @@ class SocketController {
     _socket.emitWithAck("fetching-messages", roomName, ack: (data) => Log.ack(data));
   }
 
-  void onFetchedMessaged(List<Map<String, dynamic>> messages, SessionModel sessionReader) {
+  void onFetchedMessaged(
+    List<dynamic> messages,
+    ChatsModel chatReader,
+  ) {
     List<Message> messageList =
         messages.map<Message>((message) => Message.fromSocket(message)).toList();
-    sessionReader.populateMessages(messageList);
+    chatReader.populateMessages(messageList);
   }
 
-  void sendMessageEmitter(Map<String, String> messageData) {
+  void sendMessageEmitter(
+    Map<String, String> messageData,
+  ) {
     Log.emit(['new-messages', messageData]);
 
     _socket.emitWithAck("new-message", messageData, ack: (data) => Log.ack(data));
   }
 
-  void onReturnMessage(Map<String, dynamic> message, SessionModel sessionReader) {
+  void onReturnMessage(
+    Map<String, dynamic> message,
+    ChatsModel chatReader,
+  ) {
     Message newMessage = Message.fromSocket(message);
-    sessionReader.displayNewMessage(newMessage);
+    chatReader.displayNewMessage(newMessage);
   }
 
   void leaveRoom() {

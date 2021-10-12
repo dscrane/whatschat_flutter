@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import 'package:whats_chat/providers/chat_model.dart';
 import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/services/networking.dart';
@@ -128,7 +129,7 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
                       return GestureDetector(
                         onTap: () {
                           context
-                              .read<SessionModel>()
+                              .read<ChatsModel>()
                               .socketController
                               .createPrivateConnectionEmitter(user['username']);
                           setState(() {

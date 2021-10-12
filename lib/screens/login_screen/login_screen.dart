@@ -28,13 +28,21 @@ class _LoginScreenState extends State<LoginScreen> {
   void updatePassword(enteredPassword) => password = enteredPassword;
 
   void handleLogin() async {
+    // Get instance of SharedPreferences
     final SharedPreferences prefs = await _prefs;
     try {
+      // Query database for user with provided credentials
       Map<String, dynamic> response =
           await NetworkHelper.loginUser('mobiletester', 'mobiletestpass');
+
+      // Update app state with newly logged in user details and token
       context.read<SessionModel>().handleUserLogin(response['user'], response['token']);
+
+      // Update SharePreferences with authentication status and user data
       prefs.setBool('authenticated', true);
       prefs.setString('user', json.encode(context.read<SessionModel>().user));
+
+      // Push to the ChatListScreen
       Navigator.pop(context);
       Navigator.pushNamed(context, ChatListScreen.id);
     } catch (e) {

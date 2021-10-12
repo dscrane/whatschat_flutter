@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:whats_chat/providers/chat_model.dart';
 import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/models/message.dart';
 import 'package:whats_chat/models/room.dart';
@@ -21,20 +22,20 @@ class _ChatScreenState extends State<ChatScreen> {
   void sendNewMessage(BuildContext context) {
     Map<String, String> newMessageData = {
       'message': newMessageText,
-      'chatroomName': context.read<SessionModel>().currentRoom.name,
+      'chatroomName': context.read<ChatsModel>().currentRoom.name,
       'userId': context.read<SessionModel>().user.id,
       'author': context.read<SessionModel>().user.username,
     };
 
-    context.read<SessionModel>().socketController.sendMessageEmitter(newMessageData);
+    context.read<ChatsModel>().socketController.sendMessageEmitter(newMessageData);
   }
 
   void populateMessageList() {}
 
   @override
   Widget build(BuildContext context) {
-    Room currentRoom = context.watch<SessionModel>().currentRoom;
-    List<Message> messages = context.watch<SessionModel>().currentRoom.messages;
+    Room currentRoom = context.watch<ChatsModel>().currentRoom;
+    List<Message> messages = context.watch<ChatsModel>().currentRoom.messages;
 
     List<MessageBubble> messageBubbles = messages
         .map((message) => MessageBubble(
