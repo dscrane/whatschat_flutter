@@ -65,10 +65,10 @@ class ChatListTile extends StatelessWidget {
                       // Todo: hook up the context menu for the chat_list_screen
                     },
                     itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                      const PopupMenuItem(child: Text('Close Chat')),
-                      const PopupMenuItem(child: Text('Delete Chat')),
                       const PopupMenuItem(child: Text('Info')),
                       const PopupMenuItem(child: Text('Archive')),
+                      const PopupMenuItem(child: Text('Close Chat')),
+                      const PopupMenuItem(child: Text('Delete Chat')),
                     ],
                   ),
                 ),

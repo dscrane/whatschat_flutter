@@ -130,7 +130,7 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
                           context
                               .read<SessionModel>()
                               .socketController
-                              .createPrivateConnection(user['username']);
+                              .createPrivateConnectionEmitter(user['username']);
                           setState(() {
                             searchResults = [];
                             animateTextField = false;

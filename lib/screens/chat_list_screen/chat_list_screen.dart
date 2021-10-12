@@ -54,27 +54,41 @@ class _ChatListScreenState extends State<ChatListScreen> {
     SessionModel sessionReader = context.read<SessionModel>();
     SocketController socketController = sessionReader.socketController;
     Socket socket = socketController.socket;
-    socketController.initializeSession();
+    socketController.initializeSessionEmitter();
     socket.onConnect((_) {
       if (sessionReader.rooms != null) {
         return;
       }
-      socketController.initialData();
+      socketController.initialDataEmitter();
     });
-    socket.on('initial-data', (data) {
-      print(data);
-      sessionReader.updateRooms(data);
-    });
-    socket.on('fetch-messages', (data) => socketController.fetchMessages(data));
+    socket.on(
+      'initial-data',
+      (data) => socketController.onInitialData(data, sessionReader),
+    );
     socket.on(
       'fetched-messages',
-      (data) => sessionReader.populateMessages(data[1]),
+      (data) => socketController.onFetchedMessaged(data[1], sessionReader),
     );
-    socket.on('chatroom-created', (data) {
-      print(data);
-      sessionReader.updateNewRoom(data);
-    });
-    socket.on('return-message', (data) => sessionReader.displayNewMessage(data[1]));
+    socket.on(
+      'public-connection-created',
+      (data) => socketController.onPublicConnection(data, sessionReader),
+    );
+    socket.on(
+      'private-connection-created',
+      // (data) => socketController.onPrivateConnection(data, sessionReader),
+      (data) {
+        socketController.onPrivateConnection(data, sessionReader);
+      },
+    );
+    socket.on(
+      'return-message',
+      (data) => socketController.onReturnMessage(data[1], sessionReader),
+    );
+
+    socket.on(
+      'fetch-messages',
+      (data) => socketController.fetchMessagesEmitter(data),
+    );
     socket.on('error', (data) {
       try {
         throw SocketException(data);

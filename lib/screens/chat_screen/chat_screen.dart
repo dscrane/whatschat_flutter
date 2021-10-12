@@ -26,7 +26,7 @@ class _ChatScreenState extends State<ChatScreen> {
       'author': context.read<SessionModel>().user.username,
     };
 
-    context.read<SessionModel>().socketController.sendMessage(newMessageData);
+    context.read<SessionModel>().socketController.sendMessageEmitter(newMessageData);
   }
 
   void populateMessageList() {}

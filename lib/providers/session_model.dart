@@ -33,48 +33,31 @@ class SessionModel with ChangeNotifier, DiagnosticableTreeMixin {
   SocketController get socketController => _socketController;
   void set socketController(socket) => _socketController = socket;
 
-  Future handleUserLogin(user, token) async {
+  void handleUserLogin(Map<String, dynamic> user, String token) {
     this.user = User.fromJson(user, token);
     this.authenticated = true;
     notifyListeners();
   }
 
-  void populateMessages(List<dynamic> messages) {
-    List<Message> messageList = messages
-        .map<Message>(
-          (message) => Message.fromSocket(message),
-        )
-        .toList();
-    this.currentRoom.messages = messageList;
+  void populateMessages(List<Message> messages) {
+    this.currentRoom.messages = messages;
     notifyListeners();
   }
 
-  void displayNewMessage(message) {
-    Message newMessage = Message.fromSocket(message);
-
-    this.currentRoom.newMessage(newMessage);
+  void displayNewMessage(Message message) {
+    this.currentRoom.newMessage(message);
     notifyListeners();
   }
 
-  void updateRooms(List<dynamic> rooms) {
-    List<Room> roomList = rooms
-        .map<Room>(
-          (room) => Room.fromSocket(room,
-              currentUser: room['type'] == 'private' ? this.user.username : null),
-        )
-        .toList();
-    this.rooms = roomList;
+  void updateRooms(List<Room> rooms) {
+    this.rooms = rooms;
     notifyListeners();
   }
 
-  void updateNewRoom(room) {
-    print('updatenewroom');
-    Room newRoom =
-        Room.fromSocket(room, currentUser: room['type'] == 'private' ? this.user.username : null);
-    updateCurrentRoom(newRoom);
-
+  void updateNewRoom(Room room) {
+    updateCurrentRoom(room);
     List<Room>? roomListToUpdate = this.rooms;
-    roomListToUpdate!.add(newRoom);
+    roomListToUpdate!.add(room);
 
     this.rooms = roomListToUpdate;
     notifyListeners();

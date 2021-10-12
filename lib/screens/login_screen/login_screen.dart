@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       Map<String, dynamic> response =
           await NetworkHelper.loginUser('mobiletester', 'mobiletestpass');
-      await context.read<SessionModel>().handleUserLogin(response['user'], response['token']);
+      context.read<SessionModel>().handleUserLogin(response['user'], response['token']);
       prefs.setBool('authenticated', true);
       prefs.setString('user', json.encode(context.read<SessionModel>().user));
       Navigator.pop(context);
