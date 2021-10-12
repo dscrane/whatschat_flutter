@@ -4,7 +4,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/models/user.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';

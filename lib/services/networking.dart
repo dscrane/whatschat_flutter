@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
-import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/utils/constants.dart';
 
 class NetworkHelper {
   final urlString = "http://192.168.1.32:5500";

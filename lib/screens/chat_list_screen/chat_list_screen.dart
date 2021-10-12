@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:whats_chat/providers/session_model.dart';
-import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/utils/exceptions.dart';
 import 'package:whats_chat/services/socket.dart';
 import 'package:whats_chat/utils/icons.dart';

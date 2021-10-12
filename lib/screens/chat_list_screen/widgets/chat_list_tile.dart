@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/utils/icons.dart';
 
@@ -59,11 +59,17 @@ class ChatListTile extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: IconButton(
-                    icon: kIconsMenu,
-                    onPressed: () {
+                  child: PopupMenuButton(
+                    child: kIconsMenu,
+                    onSelected: (result) {
                       // Todo: hook up the context menu for the chat_list_screen
                     },
+                    itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                      const PopupMenuItem(child: Text('Close Chat')),
+                      const PopupMenuItem(child: Text('Delete Chat')),
+                      const PopupMenuItem(child: Text('Info')),
+                      const PopupMenuItem(child: Text('Archive')),
+                    ],
                   ),
                 ),
               ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/utils/constants.dart';
 
 const Icon kIconsProfile = Icon(
   FontAwesomeIcons.user,

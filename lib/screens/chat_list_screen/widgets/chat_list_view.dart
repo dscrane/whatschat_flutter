@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/models/room.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/screens/chat_screen/chat_screen.dart';

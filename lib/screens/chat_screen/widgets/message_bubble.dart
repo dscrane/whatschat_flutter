@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:whats_chat/models/message.dart';
 import 'package:whats_chat/providers/session_model.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whats_chat/constants.dart';
+import 'package:whats_chat/utils/constants.dart';
 
 class AuthenticationTextField extends StatelessWidget {
   AuthenticationTextField({
