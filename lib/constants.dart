@@ -5,6 +5,7 @@ const testToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjYzN2ZkZDBhNDFhZTY5MWM4MjhlNTAiLCJpYXQiOjE2MjkyMTU0NDZ9.7miZHC4A1O5ePvIPwUgfi9aPHkmPO698FIlUxD1olX4";
 
 // Box constants
+const kBoxXs = SizedBox(height: 8.0);
 const kBoxSm = SizedBox(height: 16.0);
 const kBoxMd = SizedBox(height: 24.0);
 const kBoxLg = SizedBox(height: 32.0);

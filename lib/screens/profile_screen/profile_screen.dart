@@ -37,9 +37,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         inspect(prefs);
       });
       context.read<SessionModel>().reset();
+      Phoenix.rebirth(context);
       Navigator.pushNamedAndRemoveUntil(
           context, WelcomeScreen.id, ModalRoute.withName(WelcomeScreen.id));
-      // Phoenix.rebirth(context);
     }
   }
 
@@ -65,17 +65,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             kBoxMd,
             ProfileCard(type: 'name', value: currentUser.name),
-            kBoxSm,
+            kBoxXs,
             ProfileCard(type: 'username', value: currentUser.username),
-            kBoxSm,
+            kBoxXs,
             ProfileCard(type: 'email', value: currentUser.email),
-            kBoxSm,
+            kBoxXs,
             ProfileCard(type: 'name', value: 'ROOMS HERE'),
-            kBoxSm,
-            RoundedButton(
-              handlePress: handleLogout,
-              title: "Log Out",
-              color: kWarning,
+            kBoxXs,
+            FractionallySizedBox(
+              widthFactor: 0.66,
+              child: RoundedButton(
+                handlePress: handleLogout,
+                title: "Log Out",
+                color: kWarning,
+              ),
             )
           ],
         ),

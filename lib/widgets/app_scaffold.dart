@@ -54,31 +54,19 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
   }
 
   void handleChange(value) async {
-    if (value == '') {
-      return;
+    if (value == '' && searchResults != null) {
+      setState(() {
+        searchResults = [];
+      });
+    } else {
+      List<dynamic> response =
+          await NetworkHelper.queryForUsers(value, context.read<SessionModel>().user.token);
+      print(response);
+      setState(() {
+        searchResults = response;
+        searchText = value;
+      });
     }
-    List<dynamic> response =
-        await NetworkHelper.queryForUsers(value, context.read<SessionModel>().user.token);
-    print(response.runtimeType);
-    setState(() {
-      searchResults = response;
-      searchText = value;
-    });
-  }
-
-  createSearchDisplay() {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(0.0),
-      child: Container(
-        child: Column(
-          children: searchResults!.map<Widget>((el) {
-            return ListTile(
-              title: Text(el['name']),
-            );
-          }).toList(),
-        ),
-      ),
-    );
   }
 
   @override
@@ -86,7 +74,7 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
     if (animateTextField) {
       _controller.forward();
       _focusNode.requestFocus();
-    } else if (!animateTextField) {
+    } else {
       _controller.reverse();
       _searchController.clear();
     }
@@ -102,6 +90,7 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
               width: animation.value,
               child: TextField(
                 onChanged: (value) {
+                  print(value);
                   handleChange(value);
                 },
                 controller: _searchController,
@@ -116,6 +105,7 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
           IconButton(
             icon: actionIcon,
             onPressed: () {
+              print('icon pressed animatedTextField ${animateTextField}');
               setState(() {
                 animateTextField = !animateTextField;
                 actionIcon = animateTextField ? kIconsClose : kIconsSearch;
@@ -123,7 +113,22 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
             },
           ),
         ],
-        // bottom: searchResults != null && animateTextField ? createSearchDisplay() : null,
+        bottom: animateTextField
+            ? PreferredSize(
+                preferredSize: Size.fromHeight(
+                  (searchResults?.length ?? 0.0) * 50.0,
+                ),
+                child: Container(
+                  child: Column(
+                    children: (searchResults ?? []).map<Widget>((el) {
+                      return ListTile(
+                        title: Text(el['name']),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              )
+            : null,
       ),
       body: widget.body,
       bottomNavigationBar: BottomNavigation(selectedIndex: widget._selectedIndex),
