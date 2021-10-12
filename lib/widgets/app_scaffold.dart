@@ -106,7 +106,11 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
             icon: actionIcon,
             onPressed: () {
               print('icon pressed animatedTextField ${animateTextField}');
+              print('results $searchResults');
               setState(() {
+                if (animateTextField) {
+                  searchResults = [];
+                }
                 animateTextField = !animateTextField;
                 actionIcon = animateTextField ? kIconsClose : kIconsSearch;
               });
@@ -120,9 +124,22 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
                 ),
                 child: Container(
                   child: Column(
-                    children: (searchResults ?? []).map<Widget>((el) {
-                      return ListTile(
-                        title: Text(el['name']),
+                    children: (searchResults ?? []).map<Widget>((user) {
+                      return GestureDetector(
+                        onTap: () {
+                          context
+                              .read<SessionModel>()
+                              .socketController
+                              .createPrivateConnection(user['username']);
+                          setState(() {
+                            searchResults = [];
+                            animateTextField = false;
+                            actionIcon = animateTextField ? kIconsClose : kIconsSearch;
+                          });
+                        },
+                        child: ListTile(
+                          title: Text(user['name']),
+                        ),
                       );
                     }).toList(),
                   ),

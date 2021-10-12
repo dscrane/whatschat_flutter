@@ -61,12 +61,19 @@ class _ChatListScreenState extends State<ChatListScreen> {
       }
       socketController.initialData();
     });
-    socket.on('initial-data', (data) => sessionReader.updateRooms(data));
+    socket.on('initial-data', (data) {
+      print(data);
+      sessionReader.updateRooms(data);
+    });
     socket.on('fetch-messages', (data) => socketController.fetchMessages(data));
     socket.on(
       'fetched-messages',
       (data) => sessionReader.populateMessages(data[1]),
     );
+    socket.on('chatroom-created', (data) {
+      print(data);
+      sessionReader.updateNewRoom(data);
+    });
     socket.on('return-message', (data) => sessionReader.displayNewMessage(data[1]));
     socket.on('error', (data) {
       try {

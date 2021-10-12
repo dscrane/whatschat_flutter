@@ -19,6 +19,7 @@ class SocketController {
 
   void initializeSession() {
     socket.connect();
+    inspect(socket);
   }
 
   void initialData() {
@@ -39,6 +40,12 @@ class SocketController {
       [roomName, userName],
       ack: (data) => Log.ack(data),
     );
+  }
+
+  void createPrivateConnection(userToFind) {
+    Log.emit(['create-private-connection', userToFind]);
+
+    _socket.emitWithAck("create-private", userToFind, ack: (data) => Log.ack(data));
   }
 
   void joinRoom(String roomName, String userName) {

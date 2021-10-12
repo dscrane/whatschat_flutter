@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:whats_chat/constants.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
+import 'package:whats_chat/services/networking.dart';
 import 'package:whats_chat/widgets/rounded_button.dart';
 import 'package:whats_chat/widgets/authentication_text_field.dart';
 import 'package:whats_chat/widgets/hero_logo.dart';
@@ -27,15 +28,17 @@ class _LoginScreenState extends State<LoginScreen> {
   void updatePassword(enteredPassword) => password = enteredPassword;
 
   void handleLogin() async {
-    inspect(context.read<SessionModel>());
-    await context.read<SessionModel>().handleUserLogin('sampleuser', 'examplepass000');
-    if (context.read<SessionModel>().authenticated) {
-      final SharedPreferences prefs = await _prefs;
+    final SharedPreferences prefs = await _prefs;
+    try {
+      Map<String, dynamic> response =
+          await NetworkHelper.loginUser('mobiletester', 'mobiletestpass');
+      await context.read<SessionModel>().handleUserLogin(response['user'], response['token']);
       prefs.setBool('authenticated', true);
       prefs.setString('user', json.encode(context.read<SessionModel>().user));
       Navigator.pop(context);
       Navigator.pushNamed(context, ChatListScreen.id);
-    } else {
+    } catch (e) {
+      print(e);
       setState(() {});
     }
   }

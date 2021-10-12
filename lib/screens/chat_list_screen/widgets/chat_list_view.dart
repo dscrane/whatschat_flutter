@@ -18,6 +18,7 @@ class ChatListView extends StatelessWidget {
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
+            print('chat_list_view on tap');
             context.read<SessionModel>().currentRoom = rooms[index];
             context.read<SessionModel>().socketController.joinRoom(
                 context.read<SessionModel>().currentRoom.name,

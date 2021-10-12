@@ -33,16 +33,10 @@ class SessionModel with ChangeNotifier, DiagnosticableTreeMixin {
   SocketController get socketController => _socketController;
   void set socketController(socket) => _socketController = socket;
 
-  Future handleUserLogin(username, password) async {
-    try {
-      Map<String, dynamic> response = await NetworkHelper.loginUser(username, password);
-      this.user = User.fromJson(response['user'], response['token']);
-      this.authenticated = true;
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      this.authenticated = false;
-    }
+  Future handleUserLogin(user, token) async {
+    this.user = User.fromJson(user, token);
+    this.authenticated = true;
+    notifyListeners();
   }
 
   void populateMessages(List<dynamic> messages) {
@@ -63,8 +57,26 @@ class SessionModel with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   void updateRooms(List<dynamic> rooms) {
-    List<Room> roomList = rooms.map<Room>((room) => Room.fromSocket(room)).toList();
+    List<Room> roomList = rooms
+        .map<Room>(
+          (room) => Room.fromSocket(room,
+              currentUser: room['type'] == 'private' ? this.user.username : null),
+        )
+        .toList();
     this.rooms = roomList;
+    notifyListeners();
+  }
+
+  void updateNewRoom(room) {
+    print('updatenewroom');
+    Room newRoom =
+        Room.fromSocket(room, currentUser: room['type'] == 'private' ? this.user.username : null);
+    updateCurrentRoom(newRoom);
+
+    List<Room>? roomListToUpdate = this.rooms;
+    roomListToUpdate!.add(newRoom);
+
+    this.rooms = roomListToUpdate;
     notifyListeners();
   }
 
