@@ -1,10 +1,11 @@
+import 'dart:developer';
+
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:whats_chat/models/message.dart';
 import 'package:whats_chat/models/room.dart';
 import 'package:whats_chat/providers/chat_model.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/utils/log.dart';
-import 'dart:developer';
 
 class SocketController {
   late Socket _socket;
@@ -121,7 +122,6 @@ class SocketController {
 
   void fetchMessagesEmitter(String roomName) {
     Log.emit(['fetching-messages', roomName]);
-
     _socket.emitWithAck("fetching-messages", roomName, ack: (data) => Log.ack(data));
   }
 

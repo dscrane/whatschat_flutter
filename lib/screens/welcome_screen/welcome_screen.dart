@@ -1,15 +1,15 @@
 import 'dart:convert';
-import 'dart:developer';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:whats_chat/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whats_chat/models/user.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
 import 'package:whats_chat/screens/login_screen/login_screen.dart';
 import 'package:whats_chat/screens/registration_screen/registration_screen.dart';
+import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/widgets/hero_logo.dart';
 import 'package:whats_chat/widgets/rounded_button.dart';
 

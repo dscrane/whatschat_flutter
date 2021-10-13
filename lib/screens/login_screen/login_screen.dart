@@ -1,16 +1,16 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:whats_chat/screens/welcome_screen/welcome_screen.dart';
-import 'package:whats_chat/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
+import 'package:whats_chat/screens/welcome_screen/welcome_screen.dart';
 import 'package:whats_chat/services/networking.dart';
-import 'package:whats_chat/widgets/rounded_button.dart';
+import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/widgets/authentication_text_field.dart';
 import 'package:whats_chat/widgets/hero_logo.dart';
+import 'package:whats_chat/widgets/rounded_button.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = 'login_screen';

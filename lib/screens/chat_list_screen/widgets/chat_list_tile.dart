@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:provider/provider.dart';
+
 import 'package:flutter/material.dart';
-import 'package:whats_chat/utils/constants.dart';
+import 'package:provider/provider.dart';
 import 'package:whats_chat/providers/session_model.dart';
+import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/utils/icons.dart';
 
 class ChatListTile extends StatelessWidget {

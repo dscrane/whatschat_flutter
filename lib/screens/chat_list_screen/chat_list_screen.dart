@@ -1,19 +1,16 @@
-import 'dart:async';
-import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:whats_chat/providers/chat_model.dart';
 import 'package:whats_chat/providers/session_model.dart';
+import 'package:whats_chat/screens/chat_list_screen/widgets/chat_list_view.dart';
+import 'package:whats_chat/services/socket.dart';
 import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/utils/exceptions.dart';
-import 'package:whats_chat/services/socket.dart';
 import 'package:whats_chat/utils/icons.dart';
 import 'package:whats_chat/widgets/app_scaffold.dart';
-import 'package:whats_chat/screens/chat_list_screen/widgets/chat_list_view.dart';
 
 class ChatListScreen extends StatefulWidget {
   static String id = 'chat_list_screen';
@@ -23,34 +20,35 @@ class ChatListScreen extends StatefulWidget {
 }
 
 class _ChatListScreenState extends State<ChatListScreen> {
-  bool _fetching = false;
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  bool _loadingIndicator = false;
 
   @override
   void initState() {
+    // set the loading indicator state to true
     enableLoadingIndicator();
 
-    context.read<ChatsModel>().socketController = SocketController(
-      userId: context.read<SessionModel>().user!.id,
-      username: context.read<SessionModel>().user!.username,
-      token: context.read<SessionModel>().user!.token,
-    );
+    // initialize socket connection
+    context.read<ChatsModel>().initializeSocketController(
+          SocketController(
+            userId: context.read<SessionModel>().user!.id,
+            username: context.read<SessionModel>().user!.username,
+            token: context.read<SessionModel>().user!.token,
+          ),
+        );
 
+    // initialize socket listeners on initial load
     connectToServer();
     super.initState();
   }
 
+  // update loadingIndicator state
   void enableLoadingIndicator() {
     setState(() {
-      _fetching = true;
+      _loadingIndicator = true;
     });
   }
-  //
-  // @override
-  // dispose() {
-  //   super.dispose();
-  // }
 
+  // handle socket events
   void connectToServer() {
     ChatsModel chatsReader = context.read<ChatsModel>();
     SessionModel sessionReader = context.read<SessionModel>();
@@ -107,7 +105,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
   Widget build(BuildContext context) {
     if (context.watch<ChatsModel>().rooms?.length != null) {
       setState(() {
-        _fetching = false;
+        _loadingIndicator = false;
       });
     }
     return AppScaffold(
@@ -115,13 +113,13 @@ class _ChatListScreenState extends State<ChatListScreen> {
       title: 'Chats',
       body: SafeArea(
         child: ModalProgressHUD(
-          inAsyncCall: _fetching,
+          inAsyncCall: _loadingIndicator,
           progressIndicator: CircularProgressIndicator(
             color: kPrimaryAccent,
             backgroundColor: Colors.white,
             semanticsLabel: 'Fetching chats...',
           ),
-          // opacity: 0.5,
+          opacity: 0.5,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -145,6 +143,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
           // TODO: add modal pop up to create a new room
         },
         child: kIconsPlus,
+        foregroundColor: kTextDarkFaded,
         backgroundColor: kSecondaryAccent,
       ),
     );

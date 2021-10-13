@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:whats_chat/providers/chat_model.dart';
-import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/providers/session_model.dart';
-import 'package:whats_chat/services/networking.dart';
-import 'package:whats_chat/utils/icons.dart';
 import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
 import 'package:whats_chat/screens/profile_screen/profile_screen.dart';
 import 'package:whats_chat/screens/settings_screen/settings_screen.dart';
+import 'package:whats_chat/services/networking.dart';
+import 'package:whats_chat/utils/constants.dart';
+import 'package:whats_chat/utils/icons.dart';
 
 class AppScaffold extends StatefulWidget {
   const AppScaffold(
@@ -27,41 +27,50 @@ class AppScaffold extends StatefulWidget {
 }
 
 class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStateMixin {
-  bool animateTextField = false;
-  Icon actionIcon = kIconsSearch;
   late FocusNode _focusNode;
   late Animation<double> animation;
   late AnimationController _controller;
   TextEditingController _searchController = TextEditingController();
+
+  bool animateTextField = false;
+  Icon actionIcon = kIconsSearch;
+
   String searchText = '';
   List<dynamic>? searchResults;
 
   @override
   void initState() {
+    // initialize animation controller for the slide out input field
     _controller = AnimationController(duration: const Duration(milliseconds: 100), vsync: this);
+    // define the animation to perform on the input field
     animation = Tween<double>(begin: 0.0, end: 290.0).animate(_controller)
       ..addListener(() {
         setState(() {});
       });
-    super.initState();
+    // initialize focus node for the input field
     _focusNode = FocusNode();
+    super.initState();
   }
 
   @override
   void dispose() {
+    // dispose of controllers when widget is removed from tree
     _focusNode.dispose();
     _controller.dispose();
     super.dispose();
   }
 
   void handleChange(value) async {
+    // do not return all users when an empty string is provided
     if (value == '' && searchResults != null) {
       setState(() {
         searchResults = [];
       });
     } else {
+      // query API for users with entered "name" or "username"
       List<dynamic> response =
           await NetworkHelper.queryForUsers(value, context.read<SessionModel>().user!.token);
+      // update state with the returned list of users
       setState(() {
         searchResults = response;
         searchText = value;
@@ -71,6 +80,7 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
+    // check current state of animateTextField and define animation and focus accordingly
     if (animateTextField) {
       _controller.forward();
       _focusNode.requestFocus();
@@ -81,6 +91,7 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
     return Scaffold(
       backgroundColor: kBackground,
       appBar: AppBar(
+        automaticallyImplyLeading: widget._selectedIndex != ChatListScreen.navigationIndex,
         backgroundColor: kPrimary,
         title: Text(widget.title),
         actions: <Widget>[
@@ -146,15 +157,14 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
       ),
       body: widget.body,
       bottomNavigationBar: BottomNavigation(selectedIndex: widget._selectedIndex),
+      floatingActionButton: widget.floatingActionButton ?? null,
     );
   }
 }
 
 class BottomNavigation extends StatelessWidget {
-  const BottomNavigation({
-    Key? key,
-    required int selectedIndex,
-  })  : _selectedIndex = selectedIndex,
+  const BottomNavigation({Key? key, required int selectedIndex})
+      : _selectedIndex = selectedIndex,
         super(key: key);
 
   final int _selectedIndex;

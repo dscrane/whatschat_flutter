@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:whats_chat/providers/chat_model.dart';
-import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/models/room.dart';
+import 'package:whats_chat/providers/chat_model.dart';
 import 'package:whats_chat/providers/session_model.dart';
-import 'package:whats_chat/screens/chat_screen/chat_screen.dart';
 import 'package:whats_chat/screens/chat_list_screen/widgets/chat_list_tile.dart';
-import 'package:whats_chat/services/socket.dart';
+import 'package:whats_chat/screens/chat_screen/chat_screen.dart';
 
 class ChatListView extends StatelessWidget {
   ChatListView(this.rooms);
@@ -19,8 +17,7 @@ class ChatListView extends StatelessWidget {
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
-            print('chat_list_view on tap');
-            context.read<ChatsModel>().currentRoom = rooms[index];
+            context.read<ChatsModel>().updateCurrentRoom(rooms[index]);
             context.read<ChatsModel>().socketController!.joinRoomEmitter(
                 context.read<ChatsModel>().currentRoom!.name,
                 context.read<SessionModel>().user!.name);

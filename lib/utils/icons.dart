@@ -14,7 +14,7 @@ const Icon kIconsMenu = Icon(
 
 const Icon kIconsPlus = Icon(
   FontAwesomeIcons.plus,
-  color: kTextDark,
+  // color: kTextDark,
 );
 
 const Icon kIconsMinus = Icon(

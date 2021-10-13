@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whats_chat/providers/chat_model.dart';
-import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/providers/settings_model.dart';
 import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
@@ -16,8 +14,7 @@ import 'package:whats_chat/screens/profile_screen/profile_screen.dart';
 import 'package:whats_chat/screens/registration_screen/registration_screen.dart';
 import 'package:whats_chat/screens/settings_screen/settings_screen.dart';
 import 'package:whats_chat/screens/welcome_screen/welcome_screen.dart';
-
-import 'models/user.dart';
+import 'package:whats_chat/utils/constants.dart';
 
 void main() {
   runApp(
