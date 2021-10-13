@@ -25,28 +25,27 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   void handleLogout() async {
-    print('attempting logout');
-    var logoutSuccess = await NetworkHelper.logoutUser(context.read<SessionModel>().user.token);
-    print(logoutSuccess);
+    // query API with logout call
+    var logoutSuccess = await NetworkHelper.logoutUser(context.read<SessionModel>().user!.token);
     if (logoutSuccess) {
-      // TODO: remove the value of 'token' in shared_preferences on logout
-      context.read<SessionModel>().prefs.then((SharedPreferences prefs) {
-        prefs.setBool('authenticated', false);
-      });
-      context.read<ChatsModel>().socketController.socket.disconnect();
-      context.read<SessionModel>().prefs.then((SharedPreferences prefs) {
-        inspect(prefs);
-      });
+      // create instance of SharedPreferences
+      final SharedPreferences prefs = await context.read<SessionModel>().prefs;
+      // update authentication status in SharedPreferences
+      await prefs.setBool('authenticated', false);
+      inspect(prefs);
+      // reset state of application on logout
       context.read<SessionModel>().reset();
-      Phoenix.rebirth(context);
+      context.read<ChatsModel>().reset();
+      // move to WelcomeScreen on logout
       Navigator.pushNamedAndRemoveUntil(
           context, WelcomeScreen.id, ModalRoute.withName(WelcomeScreen.id));
+      // Phoenix.rebirth(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    User currentUser = context.read<SessionModel>().user;
+    User? currentUser = context.read<SessionModel>().user;
 
     return AppScaffold(
       ProfileScreen.navigationIndex,
@@ -58,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Image.memory(
-                base64Decode(currentUser.avatar),
+                base64Decode(currentUser!.avatar),
                 height: 125.0,
                 width: 125.0,
                 // fit: BoxFit.fill,

@@ -17,7 +17,7 @@ class ChatListTile extends StatelessWidget {
           padding: EdgeInsets.only(left: 10.0, top: 5.0, right: 5.0, bottom: 5.0),
           child: ClipOval(
             child: Image.memory(
-              base64Decode(context.read<SessionModel>().user.avatar),
+              base64Decode(context.read<SessionModel>().user!.avatar),
               height: 35.0,
               width: 35.0,
               fit: BoxFit.fill,

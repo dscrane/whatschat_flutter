@@ -40,12 +40,11 @@ class SocketController {
     SessionModel sessionReader,
     ChatsModel chatReader,
   ) {
-    print(rooms.runtimeType);
     List<Room> roomList = rooms
         .map<Room>(
           (room) => Room.fromSocket(
             room,
-            currentUser: room['type'] == 'private' ? sessionReader.user.username : null,
+            currentUser: room['type'] == 'private' ? sessionReader.user!.username : null,
           ),
         )
         .toList();
@@ -82,8 +81,12 @@ class SocketController {
     SessionModel sessionReader,
     ChatsModel chatReader,
   ) {
-    Room newRoom = Room.fromSocket(room, currentUser: sessionReader.user.username);
-    chatReader.updateNewRoom(newRoom);
+    Room newRoom = Room.fromSocket(room, currentUser: sessionReader.user!.username);
+
+    List<Room>? roomListToUpdate = chatReader.rooms;
+    roomListToUpdate!.add(newRoom);
+
+    chatReader.updateNewRoom(roomListToUpdate, newRoom);
   }
 
   void joinRoomEmitter(

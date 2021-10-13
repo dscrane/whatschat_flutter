@@ -21,9 +21,9 @@ class ChatListView extends StatelessWidget {
           onTap: () {
             print('chat_list_view on tap');
             context.read<ChatsModel>().currentRoom = rooms[index];
-            context.read<ChatsModel>().socketController.joinRoomEmitter(
-                context.read<ChatsModel>().currentRoom.name,
-                context.read<SessionModel>().user.name);
+            context.read<ChatsModel>().socketController!.joinRoomEmitter(
+                context.read<ChatsModel>().currentRoom!.name,
+                context.read<SessionModel>().user!.name);
             Navigator.pushNamed(context, ChatScreen.id);
           },
           child: ChatListTile(room: rooms[index]),

@@ -29,7 +29,7 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isCurrentUser = message.author == context.read<SessionModel>().user.username;
+    final isCurrentUser = message.author == context.read<SessionModel>().user!.username;
     final timestamp = _formatTimeStamp(message.timestamp);
     final textSize = _textSize(message.message, kMessageTextStyle);
 

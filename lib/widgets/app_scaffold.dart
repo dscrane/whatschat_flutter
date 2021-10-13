@@ -61,8 +61,7 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
       });
     } else {
       List<dynamic> response =
-          await NetworkHelper.queryForUsers(value, context.read<SessionModel>().user.token);
-      print(response);
+          await NetworkHelper.queryForUsers(value, context.read<SessionModel>().user!.token);
       setState(() {
         searchResults = response;
         searchText = value;
@@ -91,7 +90,6 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
               width: animation.value,
               child: TextField(
                 onChanged: (value) {
-                  print(value);
                   handleChange(value);
                 },
                 controller: _searchController,
@@ -106,8 +104,6 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
           IconButton(
             icon: actionIcon,
             onPressed: () {
-              print('icon pressed animatedTextField ${animateTextField}');
-              print('results $searchResults');
               setState(() {
                 if (animateTextField) {
                   searchResults = [];
@@ -130,7 +126,7 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
                         onTap: () {
                           context
                               .read<ChatsModel>()
-                              .socketController
+                              .socketController!
                               .createPrivateConnectionEmitter(user['username']);
                           setState(() {
                             searchResults = [];

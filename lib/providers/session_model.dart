@@ -6,16 +6,17 @@ import 'package:whats_chat/models/room.dart';
 import 'package:whats_chat/models/user.dart';
 import 'package:whats_chat/services/networking.dart';
 import 'package:whats_chat/services/socket.dart';
+import 'package:whats_chat/utils/log.dart';
 
 // ignore: prefer_mixin
 class SessionModel with ChangeNotifier, DiagnosticableTreeMixin {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   bool _authenticated = false;
-  late User _user;
+  User? _user;
 
   Future<SharedPreferences> get prefs => _prefs;
 
-  User get user => _user;
+  User? get user => _user;
   void set user(user) => _user = user;
 
   bool get authenticated => _authenticated;
@@ -25,20 +26,18 @@ class SessionModel with ChangeNotifier, DiagnosticableTreeMixin {
     this.user = User.fromJson(user, token);
     this.authenticated = true;
     notifyListeners();
+    Log.sessionModel('handleUserLogin');
   }
 
-  void userLogin(User loginUser) {
-    this.user = loginUser;
-    this.authenticated = true;
+  void updateUser(User user) {
+    this.user = user;
     notifyListeners();
+    Log.sessionModel('updateUser');
   }
 
   void reset() {
     this.authenticated = false;
-    this.user = User;
-    // this.rooms = [];
-    // this.currentRoom = Room;
-    // this.socketController = SocketController;
+    this.user = null;
   }
 
   @override

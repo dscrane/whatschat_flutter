@@ -31,9 +31,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
     enableLoadingIndicator();
 
     context.read<ChatsModel>().socketController = SocketController(
-      userId: context.read<SessionModel>().user.id,
-      username: context.read<SessionModel>().user.username,
-      token: context.read<SessionModel>().user.token,
+      userId: context.read<SessionModel>().user!.id,
+      username: context.read<SessionModel>().user!.username,
+      token: context.read<SessionModel>().user!.token,
     );
 
     connectToServer();
@@ -54,8 +54,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
   void connectToServer() {
     ChatsModel chatsReader = context.read<ChatsModel>();
     SessionModel sessionReader = context.read<SessionModel>();
-    SocketController socketController = chatsReader.socketController;
-    Socket socket = socketController.socket;
+    SocketController? socketController = chatsReader.socketController;
+    Socket socket = socketController!.socket;
+
     socketController.initializeSessionEmitter();
     socket.onConnect((_) {
       if (chatsReader.rooms != null) {

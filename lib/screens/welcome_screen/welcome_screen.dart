@@ -10,7 +10,6 @@ import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
 import 'package:whats_chat/screens/login_screen/login_screen.dart';
 import 'package:whats_chat/screens/registration_screen/registration_screen.dart';
-import 'package:whats_chat/utils/log.dart';
 import 'package:whats_chat/widgets/hero_logo.dart';
 import 'package:whats_chat/widgets/rounded_button.dart';
 
@@ -22,16 +21,30 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-// todo: check for authorized token in shared_preferences
-  //  if there is a token skip login screen
-  // if not hit login screen like normal
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  void checkAuthentication() async {
+    // verify if user is authenticated already
+    // if so bypass LoginScreen and move to ChatListScreen
+    if (context.read<SessionModel>().authenticated) {
+      // create instance of SharePreferences
+      final SharedPreferences prefs = await context.read<SessionModel>().prefs;
+      // access the user data saves in SharedPreferences
+      String savedUser = await prefs.getString('user') as String;
+      // update session state with saved user data
+      context.read<SessionModel>().updateUser(User.fromPreferences(json.decode(savedUser)));
+      // push the authenticated ChatListScreen
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        ChatListScreen.id,
+        ModalRoute.withName(WelcomeScreen.id),
+      );
+      return;
+    }
+    // if user is not authenticated move to LoginScreen
+    Navigator.pushNamed(context, LoginScreen.id);
+  }
 
   @override
   Widget build(BuildContext context) {
-    _prefs.then((SharedPreferences prefs) {
-      inspect(prefs);
-    });
     return Scaffold(
       backgroundColor: kBackground,
       body: Center(
@@ -54,26 +67,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   AnimatedTitle(),
                 ],
               ),
-              SizedBox(height: 40.0),
+              SizedBox(height: 100.0),
               RoundedButton(
                 title: 'Log In',
                 color: kPrimary,
-                handlePress: () {
-                  if (context.read<SessionModel>().authenticated) {
-                    context.read<SessionModel>().prefs.then((SharedPreferences prefs) {
-                      String savedUser = prefs.getString('user') as String;
-                      context.read<SessionModel>().user =
-                          User.fromPreferences(json.decode(savedUser));
-                    });
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      ChatListScreen.id,
-                      ModalRoute.withName(WelcomeScreen.id),
-                    );
-                    return;
-                  }
-                  Navigator.pushNamed(context, LoginScreen.id);
-                },
+                handlePress: checkAuthentication,
               ),
               RoundedButton(
                 title: 'Register',

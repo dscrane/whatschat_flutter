@@ -1,15 +1,5 @@
 import 'package:whats_chat/models/message.dart';
 
-String parseName(String name, currentUser) {
-  if (currentUser == null) {
-    return name;
-  }
-  List<String> names = name.split("_");
-  names.retainWhere((element) => element != currentUser);
-  print(names.join(""));
-  return names.join('');
-}
-
 class Room {
   String _id;
   String _type;
@@ -55,4 +45,13 @@ class Room {
   void set messages(List<Message> messages) => _messages = messages;
 
   void newMessage(Message message) => this.messages.add(message);
+}
+
+String parseName(String name, currentUser) {
+  if (currentUser == null) {
+    return name;
+  }
+  List<String> names = name.split("_");
+  names.retainWhere((element) => element != currentUser);
+  return names.join('');
 }

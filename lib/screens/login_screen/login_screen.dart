@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:whats_chat/screens/welcome_screen/welcome_screen.dart';
 import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
@@ -67,26 +68,41 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               HeroLogo(),
-              SizedBox(height: 24.0),
-              AuthenticationTextField(
-                fieldType: 'email',
-                handleChange: updateUsername,
-                isRegistration: false,
+              SizedBox(height: 100.0),
+              Column(
+                children: <Widget>[
+                  AuthenticationTextField(
+                    fieldType: 'email',
+                    handleChange: updateUsername,
+                    isRegistration: false,
+                  ),
+                  SizedBox(height: 24.0),
+                  AuthenticationTextField(
+                    fieldType: 'password',
+                    handleChange: updatePassword,
+                    isRegistration: false,
+                  ),
+                ],
               ),
-              SizedBox(height: 24.0),
-              AuthenticationTextField(
-                fieldType: 'password',
-                handleChange: updatePassword,
-                isRegistration: false,
-              ),
-              SizedBox(height: 24.0),
-              RoundedButton(
-                title: 'Log In',
-                color: kPrimary,
-                handlePress: () {
-                  handleLogin();
-                },
-              ),
+              SizedBox(height: 70.0),
+              Column(
+                children: <Widget>[
+                  RoundedButton(
+                    title: 'Log In',
+                    color: kPrimary,
+                    handlePress: () {
+                      handleLogin();
+                    },
+                  ),
+                  RoundedButton(
+                    title: 'Cancel',
+                    color: kSecondary,
+                    handlePress: () {
+                      Navigator.pushNamed(context, WelcomeScreen.id);
+                    },
+                  ),
+                ],
+              )
             ],
           ),
         ),

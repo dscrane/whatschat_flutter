@@ -54,10 +54,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    _prefs.then((SharedPreferences prefs) {
-      inspect(prefs);
-    });
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'WhatsChat',

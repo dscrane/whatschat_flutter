@@ -22,20 +22,20 @@ class _ChatScreenState extends State<ChatScreen> {
   void sendNewMessage(BuildContext context) {
     Map<String, String> newMessageData = {
       'message': newMessageText,
-      'chatroomName': context.read<ChatsModel>().currentRoom.name,
-      'userId': context.read<SessionModel>().user.id,
-      'author': context.read<SessionModel>().user.username,
+      'chatroomName': context.read<ChatsModel>().currentRoom!.name,
+      'userId': context.read<SessionModel>().user!.id,
+      'author': context.read<SessionModel>().user!.username,
     };
 
-    context.read<ChatsModel>().socketController.sendMessageEmitter(newMessageData);
+    context.read<ChatsModel>().socketController!.sendMessageEmitter(newMessageData);
   }
 
   void populateMessageList() {}
 
   @override
   Widget build(BuildContext context) {
-    Room currentRoom = context.watch<ChatsModel>().currentRoom;
-    List<Message> messages = context.watch<ChatsModel>().currentRoom.messages;
+    Room? currentRoom = context.watch<ChatsModel>().currentRoom;
+    List<Message> messages = context.watch<ChatsModel>().currentRoom!.messages;
 
     List<MessageBubble> messageBubbles = messages
         .map((message) => MessageBubble(
@@ -47,7 +47,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     return AppScaffold(
       ChatScreen.navigationIndex,
-      title: currentRoom.name,
+      title: currentRoom!.name,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

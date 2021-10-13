@@ -10,6 +10,14 @@ const String white = '\x1b[97m';
 const String reset = '\x1b[0m';
 
 class Log {
+  static void chatModel(data) {
+    print('$yellow[CHATS]:$white $data');
+  }
+
+  static void sessionModel(data) {
+    print('$yellow[SESSION]:$white $data');
+  }
+
   static void provider(data) {
     print('$yellow[AUTH]:$white $data');
   }
