@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import 'package:whats_chat/components/app_scaffold/app_scaffold.dart';
 import 'package:whats_chat/providers/session_model.dart';
-import 'package:whats_chat/widgets/app_scaffold.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const id = "settings_screen";

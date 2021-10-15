@@ -1,45 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import 'package:whats_chat/components/app_scaffold/widgets/bottom_navigation.dart';
+import 'package:whats_chat/components/app_scaffold/widgets/new_chat_end_drawer.dart';
 import 'package:whats_chat/providers/chat_model.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/screens/chat_list_screen/chat_list_screen.dart';
-import 'package:whats_chat/screens/profile_screen/profile_screen.dart';
-import 'package:whats_chat/screens/settings_screen/settings_screen.dart';
 import 'package:whats_chat/services/networking.dart';
 import 'package:whats_chat/utils/constants.dart';
 import 'package:whats_chat/utils/icons.dart';
 
 class AppScaffold extends StatefulWidget {
-  const AppScaffold(
+  AppScaffold(
     this._selectedIndex, {
     required this.title,
     required this.body,
-    this.floatingActionButton,
   });
 
+  final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   final int _selectedIndex;
   final String title;
   final Widget body;
-  final Widget? floatingActionButton;
 
   @override
   State<AppScaffold> createState() => _AppScaffoldState();
 }
 
 class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStateMixin {
+  TextEditingController _searchController = TextEditingController();
   late FocusNode _focusNode;
   late Animation<double> animation;
   late AnimationController _controller;
-  TextEditingController _searchController = TextEditingController();
 
-  bool animateTextField = false;
   Icon actionIcon = kIconsSearch;
-
-  String searchText = '';
+  bool animateTextField = false;
   List<dynamic>? searchResults;
+  String searchText = '';
 
   @override
-  void initState() {
+  initState() {
     // initialize animation controller for the slide out input field
     _controller = AnimationController(duration: const Duration(milliseconds: 100), vsync: this);
     // define the animation to perform on the input field
@@ -49,15 +47,8 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
       });
     // initialize focus node for the input field
     _focusNode = FocusNode();
-    super.initState();
-  }
 
-  @override
-  void dispose() {
-    // dispose of controllers when widget is removed from tree
-    _focusNode.dispose();
-    _controller.dispose();
-    super.dispose();
+    super.initState();
   }
 
   void handleChange(value) async {
@@ -78,7 +69,51 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
     }
   }
 
-  @override
+  PreferredSizeWidget? drawAppbarBottom() {
+    return searchResults != null && animateTextField
+        ? PreferredSize(
+            preferredSize: Size.fromHeight(
+              (searchResults?.length ?? 0.0) * 50.0,
+            ),
+            child: Container(
+              child: Column(
+                children: (searchResults ?? []).map<Widget>((user) {
+                  return GestureDetector(
+                    onTap: () {
+                      context
+                          .read<ChatsModel>()
+                          .socketController!
+                          .createPrivateConnectionEmitter(user['username']);
+                      setState(() {
+                        searchResults = [];
+                        animateTextField = false;
+                        actionIcon = animateTextField ? kIconsClose : kIconsSearch;
+                      });
+                    },
+                    child: ListTile(
+                      title: Text(user['name']),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          )
+        : null;
+  }
+
+  Widget? drawFloatingActionButton() {
+    return widget._selectedIndex == ChatListScreen.navigationIndex
+        ? FloatingActionButton(
+            onPressed: () {
+              widget._drawerKey.currentState!.openEndDrawer();
+            },
+            child: kIconsPlus,
+            foregroundColor: kTextDarkFaded,
+            backgroundColor: kSecondaryAccent,
+          )
+        : null;
+  }
+
   Widget build(BuildContext context) {
     // check current state of animateTextField and define animation and focus accordingly
     if (animateTextField) {
@@ -88,10 +123,12 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
       _controller.reverse();
       _searchController.clear();
     }
+
     return Scaffold(
+      key: widget._drawerKey,
+      resizeToAvoidBottomInset: true,
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        automaticallyImplyLeading: widget._selectedIndex != ChatListScreen.navigationIndex,
         backgroundColor: Theme.of(context).colorScheme.primaryVariant,
         title: Text(widget.title),
         actions: <Widget>[
@@ -125,87 +162,12 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
             },
           ),
         ],
-        bottom: animateTextField
-            ? PreferredSize(
-                preferredSize: Size.fromHeight(
-                  (searchResults?.length ?? 0.0) * 50.0,
-                ),
-                child: Container(
-                  child: Column(
-                    children: (searchResults ?? []).map<Widget>((user) {
-                      return GestureDetector(
-                        onTap: () {
-                          context
-                              .read<ChatsModel>()
-                              .socketController!
-                              .createPrivateConnectionEmitter(user['username']);
-                          setState(() {
-                            searchResults = [];
-                            animateTextField = false;
-                            actionIcon = animateTextField ? kIconsClose : kIconsSearch;
-                          });
-                        },
-                        child: ListTile(
-                          title: Text(user['name']),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              )
-            : null,
+        bottom: drawAppbarBottom(),
       ),
+      endDrawer: widget._selectedIndex == ChatListScreen.navigationIndex ? NewChatDrawer() : null,
       body: widget.body,
       bottomNavigationBar: BottomNavigation(selectedIndex: widget._selectedIndex),
-      floatingActionButton: widget.floatingActionButton ?? null,
-    );
-  }
-}
-
-class BottomNavigation extends StatelessWidget {
-  const BottomNavigation({Key? key, required int selectedIndex})
-      : _selectedIndex = selectedIndex,
-        super(key: key);
-
-  final int _selectedIndex;
-
-  @override
-  Widget build(BuildContext context) {
-    if (_selectedIndex > 3) {
-      return SizedBox(
-        height: 0.0,
-      );
-    }
-    void _onItemTapped(int index) {
-      if (index == 0) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, ProfileScreen.id, ModalRoute.withName(ChatListScreen.id));
-      } else if (index == 1) {
-        Navigator.pushNamed(context, ChatListScreen.id);
-      } else if (index == 2) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, SettingsScreen.id, ModalRoute.withName(ChatListScreen.id));
-      }
-    }
-
-    return BottomNavigationBar(
-      items: [
-        BottomNavigationBarItem(
-          label: 'Profile',
-          icon: kIconsProfile,
-        ),
-        BottomNavigationBarItem(
-          label: 'Chats',
-          icon: kIconsChats,
-        ),
-        BottomNavigationBarItem(
-          label: 'Settings',
-          icon: kIconsSettings,
-        ),
-      ],
-      currentIndex: _selectedIndex,
-      selectedItemColor: kSecondaryAccent,
-      onTap: _onItemTapped,
+      floatingActionButton: drawFloatingActionButton(),
     );
   }
 }

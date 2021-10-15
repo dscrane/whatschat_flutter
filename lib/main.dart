@@ -59,6 +59,12 @@ class _MyAppState extends State<MyApp> {
     iconTheme: IconThemeData(
       color: Color(0xff71f5f5),
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xff00e5ff), width: 1.0),
+        borderRadius: BorderRadius.all(Radius.circular(32.0)),
+      ),
+    ),
   );
   ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
@@ -80,6 +86,12 @@ class _MyAppState extends State<MyApp> {
     ),
     iconTheme: IconThemeData(
       color: Color(0xff337c85),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xff0e6875), width: 1.0),
+        borderRadius: BorderRadius.all(Radius.circular(32.0)),
+      ),
     ),
   );
 

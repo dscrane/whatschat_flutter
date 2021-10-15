@@ -1,42 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-const Icon kIconsProfile = Icon(
-  FontAwesomeIcons.user,
-  // color: kTextLight,
-);
-
 const Icon kIconsMenu = Icon(
   FontAwesomeIcons.ellipsisV,
-  // color: kSecondaryAccent,
 );
 
 const Icon kIconsPlus = Icon(
   FontAwesomeIcons.plus,
-  // color: kTextDark,
 );
 
 const Icon kIconsMinus = Icon(
   FontAwesomeIcons.minus,
-  // color: kTextLight,
 );
 
 const Icon kIconsClose = Icon(
   FontAwesomeIcons.times,
-  // color: kTextLight,
 );
 
 const Icon kIconsSearch = Icon(
   FontAwesomeIcons.search,
-  // color: kTextLight,
+);
+
+const Icon kIconsProfile = Icon(
+  FontAwesomeIcons.user,
+  size: 24.0,
 );
 
 const Icon kIconsSettings = Icon(
-  FontAwesomeIcons.cog,
-  // color: kTextLight,
+  Icons.settings_outlined,
+  size: 24.0,
 );
 
 const Icon kIconsChats = Icon(
-  FontAwesomeIcons.solidComments,
-  // color: kTextLight,
+  FontAwesomeIcons.comments,
+  size: 24.0,
 );

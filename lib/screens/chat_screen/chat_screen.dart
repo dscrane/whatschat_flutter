@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:whats_chat/components/app_scaffold/app_scaffold.dart';
 import 'package:whats_chat/models/message.dart';
 import 'package:whats_chat/models/room.dart';
 import 'package:whats_chat/providers/chat_model.dart';
 import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/screens/chat_screen/widgets/message_bubble.dart';
 import 'package:whats_chat/utils/constants.dart';
-import 'package:whats_chat/widgets/app_scaffold.dart';
 
 class ChatScreen extends StatefulWidget {
   static String id = 'chat_screen';
