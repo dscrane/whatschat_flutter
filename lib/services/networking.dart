@@ -20,7 +20,6 @@ class NetworkHelper {
         headers: {HttpHeaders.authorizationHeader: testToken},
       );
       // if successful response return User object from response body
-
       return json.decode(response.body);
     } catch (e) {
       // TODO: add error codes to server code

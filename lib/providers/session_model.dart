@@ -9,6 +9,7 @@ class SessionModel with ChangeNotifier, DiagnosticableTreeMixin {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   bool _authenticated = false;
   User? _user;
+  bool _darkTheme = true;
 
   Future<SharedPreferences> get prefs => _prefs;
 
@@ -17,6 +18,9 @@ class SessionModel with ChangeNotifier, DiagnosticableTreeMixin {
 
   bool get authenticated => _authenticated;
   void set authenticated(value) => _authenticated = value;
+
+  bool get darkTheme => _darkTheme;
+  void set darkTheme(value) => _darkTheme = value;
 
   // handles user login and updates current user and authentication state
   void handleUserLogin(Map<String, dynamic> user, String token) {
@@ -31,6 +35,12 @@ class SessionModel with ChangeNotifier, DiagnosticableTreeMixin {
     this.user = user;
     notifyListeners();
     Log.sessionModel('updateUser');
+  }
+
+  void updateDarkTheme(bool themeBool) {
+    this.darkTheme = themeBool;
+    notifyListeners();
+    Log.sessionModel('updateDarkTheme');
   }
 
   // reset SessionModel state on logout

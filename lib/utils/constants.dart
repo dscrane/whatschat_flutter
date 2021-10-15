@@ -64,10 +64,10 @@ const kMessageContainerDecoration = BoxDecoration(
   ),
 );
 
-const kChatListTitleStyle = TextStyle(
-  fontWeight: FontWeight.w700,
-  fontSize: 18.0,
-);
+// const kChatListTitleStyle = TextStyle(
+//   fontWeight: FontWeight.w700,
+//   fontSize: 18.0,
+// );
 
 const kChatListMessageStyle = TextStyle(
   fontSize: 14.0,

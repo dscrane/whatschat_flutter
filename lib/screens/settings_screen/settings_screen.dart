@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+import 'package:whats_chat/providers/session_model.dart';
 import 'package:whats_chat/widgets/app_scaffold.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -21,7 +23,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return AppScaffold(
       SettingsScreen.navigationIndex,
       title: 'Settings',
-      body: Container(),
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            SwitchListTile(
+              title: Text('Dark Mode'),
+              value: context.watch<SessionModel>().darkTheme,
+              onChanged: (value) {
+                context.read<SessionModel>().updateDarkTheme(value);
+                // toggle state for dark mode or light mode
+              },
+            )
+          ],
+        ),
+      ),
     );
   }
 }

@@ -89,10 +89,10 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
       _searchController.clear();
     }
     return Scaffold(
-      backgroundColor: kBackground,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: widget._selectedIndex != ChatListScreen.navigationIndex,
-        backgroundColor: kPrimary,
+        backgroundColor: Theme.of(context).colorScheme.primaryVariant,
         title: Text(widget.title),
         actions: <Widget>[
           Center(

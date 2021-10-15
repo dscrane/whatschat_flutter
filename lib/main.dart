@@ -14,7 +14,6 @@ import 'package:whats_chat/screens/profile_screen/profile_screen.dart';
 import 'package:whats_chat/screens/registration_screen/registration_screen.dart';
 import 'package:whats_chat/screens/settings_screen/settings_screen.dart';
 import 'package:whats_chat/screens/welcome_screen/welcome_screen.dart';
-import 'package:whats_chat/utils/constants.dart';
 
 void main() {
   runApp(
@@ -39,6 +38,51 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
+  ThemeData darkTheme = ThemeData(
+    brightness: Brightness.dark,
+    backgroundColor: Color(0xff1A1B2F),
+    colorScheme: ColorScheme.fromSwatch(
+      brightness: Brightness.dark,
+      primaryColorDark: Color(0xff8741c1),
+      accentColor: Color(0xff71f5f5),
+    ),
+    textTheme: TextTheme(
+      bodyText1: TextStyle(color: Colors.red /* Color(0xFFFFFFFF)*/),
+      bodyText2: TextStyle(
+        color: Color(0xFFFFFFFF),
+        fontWeight: FontWeight.w700,
+        fontSize: 18.0,
+      ),
+      subtitle1: TextStyle(color: Color(0xFF9793A4), fontSize: 14.0),
+      subtitle2: TextStyle(color: Colors.red),
+    ),
+    iconTheme: IconThemeData(
+      color: Color(0xff71f5f5),
+    ),
+  );
+  ThemeData lightTheme = ThemeData(
+    brightness: Brightness.light,
+    backgroundColor: Color(0xffb8b2d9),
+    colorScheme: ColorScheme.fromSwatch(
+      brightness: Brightness.light,
+      primaryColorDark: Color(0xffb58ed9),
+      accentColor: Color(0xff337c85),
+    ),
+    textTheme: TextTheme(
+      bodyText1: TextStyle(color: Colors.red /* Color(0xFFFFFFFF)*/),
+      bodyText2: TextStyle(
+        color: Color(0xFF000000),
+        fontWeight: FontWeight.w700,
+        fontSize: 18.0,
+      ),
+      subtitle1: TextStyle(color: Color(0xFF424148), fontSize: 14.0),
+      subtitle2: TextStyle(color: Colors.red),
+    ),
+    iconTheme: IconThemeData(
+      color: Color(0xff337c85),
+    ),
+  );
+
   @override
   void initState() {
     _prefs.then((SharedPreferences prefs) {
@@ -54,10 +98,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'WhatsChat',
-      theme: ThemeData(
-        backgroundColor: kBackground,
-        brightness: Brightness.dark,
-      ),
+      theme: context.watch<SessionModel>().darkTheme ? darkTheme : lightTheme,
       initialRoute: WelcomeScreen.id,
       routes: {
         WelcomeScreen.id: (context) => WelcomeScreen(),

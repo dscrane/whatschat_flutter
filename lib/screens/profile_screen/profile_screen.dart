@@ -104,7 +104,7 @@ class ProfileCard extends StatelessWidget {
         contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
         leading: Text(
           type.toUpperCase(),
-          style: kChatListTitleStyle,
+          // style: kChatListTitleStyle,
         ),
         title: Center(
           child: Text(

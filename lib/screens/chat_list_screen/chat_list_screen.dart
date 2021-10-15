@@ -28,13 +28,11 @@ class _ChatListScreenState extends State<ChatListScreen> {
     enableLoadingIndicator();
 
     // initialize socket connection
-    context.read<ChatsModel>().initializeSocketController(
-          SocketController(
-            userId: context.read<SessionModel>().user!.id,
-            username: context.read<SessionModel>().user!.username,
-            token: context.read<SessionModel>().user!.token,
-          ),
-        );
+    context.read<ChatsModel>().initializeSocketController(SocketController(
+          userId: context.read<SessionModel>().user!.id,
+          username: context.read<SessionModel>().user!.username,
+          token: context.read<SessionModel>().user!.token,
+        ));
 
     // initialize socket listeners on initial load
     connectToServer();

@@ -46,13 +46,12 @@ class ChatListTile extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         room.name,
-                        style: kChatListTitleStyle,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Text(
                           room.lastMessage,
-                          style: kChatListMessageStyle,
+                          style: Theme.of(context).textTheme.subtitle1,
                         ),
                       )
                     ],
